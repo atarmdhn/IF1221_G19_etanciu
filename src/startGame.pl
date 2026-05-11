@@ -1,4 +1,4 @@
-:- dynamic(player/1)
+:- dynamic(player/1).
 :- use_module(library(random)).
 
 startGame :-
