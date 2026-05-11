@@ -4,6 +4,12 @@ kartu(biru, 5). kartu(biru, 6). kartu(biru, 7). kartu(biru, 8). kartu(biru, 9).
 
 kartu(biru, skip). kartu(biru, reverse). kartu(biru, draw_two).
 
+% RUle Kartu kuning
+kartu(kuning, 0). kartu(kuning, 1). kartu(kuning, 2). kartu(kuning, 3). kartu(kuning, 4).
+kartu(kuning, 5). kartu(kuning, 6). kartu(kuning, 7). kartu(kuning, 8). kartu(kuning, 9).
+
+kartu(kuning, skip). kartu(kuning, reverse). kartu(kuning, draw_two).
+
 number(0).
 number(1). 
 number(2). 
