@@ -1,6 +1,6 @@
 :- dynamic(player/1).
 :- use_module(library(random)).
-
+:- include('fact.pl').
 startGame :-
     retractall(player(_)),
     askPlayerCount(Count),
@@ -9,7 +9,8 @@ startGame :-
     randomList(Players,RandomPlayers),
     write('Urutan pemain: '), printList(RandomPlayers), nl,
     write('Setiap pemain mendapatkan 7 kartu acak.'), nl,
-    write('Kartu discard top: '), nl, /* belum buat discard kartu */
+    getOneCard(KartuAwal, NewCard),
+    format('Kartu discard top: ~w', [NewCard]), nl, /* belum buat discard kartu */
     [First|_] = RandomPlayers,
     format('Giliran ~w.', [First]), nl.
 
@@ -73,3 +74,14 @@ printList([H|T]) :-
     write(H),
     write(' - '),
     printList(T).
+
+getOne([H|_], H).
+
+getOneCard(NewCard):-
+    findall(kartu(Warna, Jenis), kartu(Warna, Jenis), AllCards),
+    randomList(AllCards, RandomCards),
+    getOne(RandomCards, NewCard),
+    kartu(_, Jenis) = NewCard,
+    number(Jenis).
+
+    
