@@ -10,4 +10,3 @@ balikUrutan([], []):- !.
 balikUrutan([Head|Tail], TailTerbalik):-
     balikUrutan(Tail, ListTerbalik),
     append(TailTerbalik, [Head], ListTerbalik).
-

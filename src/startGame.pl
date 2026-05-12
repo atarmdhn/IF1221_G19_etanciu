@@ -9,7 +9,7 @@ startGame :-
     randomList(Players,RandomPlayers),
     write('Urutan pemain: '), printList(RandomPlayers), nl,
     write('Setiap pemain mendapatkan 7 kartu acak.'), nl,
-    write('Kartu discard top: '), /* belum buat discard kartu */
+    write('Kartu discard top: '), nl, /* belum buat discard kartu */
     [First|_] = RandomPlayers,
     format('Giliran ~w.', [First]), nl.
 
