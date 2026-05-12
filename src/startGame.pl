@@ -9,8 +9,8 @@ startGame :-
     randomList(Players,RandomPlayers),
     write('Urutan pemain: '), printList(RandomPlayers), nl,
     write('Setiap pemain mendapatkan 7 kartu acak.'), nl,
-    getOneCard(KartuAwal, NewCard),
-    format('Kartu discard top: ~w', [NewCard]), nl, /* belum buat discard kartu */
+    getOneCard(Warna,Jenis),
+    format('Kartu discard top: ~w - ~w', [Warna,Jenis]), nl, /* belum buat discard kartu */
     [First|_] = RandomPlayers,
     format('Giliran ~w.', [First]), nl.
 
@@ -75,13 +75,12 @@ printList([H|T]) :-
     write(' - '),
     printList(T).
 
-getOne([H|_], H).
+    
 
-getOneCard(NewCard):-
+getOneCard(Warna,Jenis):-
     findall(kartu(Warna, Jenis), kartu(Warna, Jenis), AllCards),
     randomList(AllCards, RandomCards),
     getOne(RandomCards, NewCard),
-    kartu(_, Jenis) = NewCard,
-    number(Jenis).
-
-    
+    kartu(Warna, Jenis) = NewCard,
+    number(Jenis),
+    warna(Warna).
