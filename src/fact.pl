@@ -16,6 +16,16 @@ kartu(hijau, 5). kartu(hijau, 6). kartu(hijau, 7). kartu(hijau, 8). kartu(hijau,
 
 kartu(hijau, skip). kartu(hijau, reverse). kartu(hijau, draw_two).
 
+% RUle Kartu merah
+kartu(merah, 0). kartu(merah, 1). kartu(merah, 2). kartu(merah, 3). kartu(merah, 4).
+kartu(merah, 5). kartu(merah, 6). kartu(merah, 7). kartu(merah, 8). kartu(merah, 9).
+
+kartu(merah, skip). kartu(merah, reverse). kartu(merah, draw_two).
+
+% Rule wild card
+kartu(hitam, wild)
+kartu(hitam, draw_four)
+
 number(0).
 number(1). 
 number(2). 
