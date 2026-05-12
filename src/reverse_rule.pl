@@ -1,5 +1,5 @@
 reverseRule(kartu(_, skip)):-
-    urutanPemain(UrutanLama), % urutanPemain belum ada
+    getAllPlayers(UrutanLama), % urutanPemain belum ada
     balikUrutan(UrutanLama, UrutanBaru),
 
     retract(UrutanLama),
