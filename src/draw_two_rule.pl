@@ -1,21 +1,14 @@
-% cek apakah sebelumnya draw_two atau bukan
-cekValid(Warna, draw_two) :- 
-    top_pile(WarnaBef, NilaiBef), 
-    NilaiBef \= draw_two,
-    Warna == WarnaBef
-
 % rule drawTwo
 drawTwo(kartu(Warna, draw_two)) :- 
-    cekValid(Warna, draw_two),
     giliran(Pemain),
 
-    retract(top_pile(_, _)),            % Ngubbah top_pile sebelumnya jadi kartu draw_two yang dimainkan
-    asserta(top_pile(Warna, draw_two)),
+    retract(kartu(_WarnaMeja, _)),            % Ngubah top_pile sebelumnya jadi kartu draw_two yang dimainkan
+    asserta(kartu(Warna, draw_two)),
 
-    pindah_giliran(NextPlayer), % ubah giliran
+    pindah_giliran(NextPlayer1), % ubah giliran
 
-    tambah_kartu(NextPlayer, ambilKartu(Kartu1)), %NextPlayer ngambil 2 kartu acak
-    tambah_kartu(NextPlayer, ambilKartu(Kartu2)).
+    tambah_kartu(NextPlayer1, ambilKartu(Kartu1)), %NextPlayer ngambil 2 kartu acak
+    tambah_kartu(NextPlayer1, ambilKartu(Kartu2)),
 
-
+    pindah_giliran(NextPlayer2).
 
