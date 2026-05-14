@@ -23,8 +23,8 @@ kartu(merah, 5). kartu(merah, 6). kartu(merah, 7). kartu(merah, 8). kartu(merah,
 kartu(merah, skip). kartu(merah, reverse). kartu(merah, draw_two).
 
 % Rule wild card
-kartu(hitam, wild)
-kartu(hitam, draw_four)
+kartu(hitam, wild).
+kartu(hitam, draw_four).
 
 number(0).
 number(1). 
