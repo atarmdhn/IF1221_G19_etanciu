@@ -48,3 +48,9 @@ collectResults([H|T]) :-
     collectResults(T).
 
 collectResults([]).
+
+% Mengambil panjang dari suatu list
+getLength([], 0).
+getLength([_|Tail], Length) :-
+    getLength(Tail, TailLength),
+    Length is Length + 1.
