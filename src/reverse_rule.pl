@@ -1,4 +1,7 @@
+:-include('startGame.pl')
+
 reverseRule(kartu(_, skip)):-
+    kartu()
     getAllPlayers(UrutanLama), % urutanPemain belum ada
     balikUrutan(UrutanLama, UrutanBaru),
 
