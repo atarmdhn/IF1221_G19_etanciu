@@ -1,4 +1,4 @@
-
+:-include ('importantFunction.pl')
 :-include('startGame.pl')
 
 reverseRule(kartu(_, skip)):-
@@ -12,4 +12,4 @@ balikUrutan([], []):- !.
 
 balikUrutan([Head|Tail], TailTerbalik):-
     balikUrutan(Tail, ListTerbalik),
-    append(TailTerbalik, [Head], ListTerbalik).
+    myAppend(TailTerbalik, [Head], ListTerbalik).
