@@ -53,4 +53,4 @@ collectResults([]).
 getLength([], 0).
 getLength([_|Tail], Length) :-
     getLength(Tail, TailLength),
-    Length is Length + 1.
+    Length is TailLength + 1.
