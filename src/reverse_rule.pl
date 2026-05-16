@@ -1,3 +1,4 @@
+
 :-include('startGame.pl')
 
 reverseRule(kartu(_, skip)):-
