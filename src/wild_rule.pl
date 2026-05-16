@@ -4,7 +4,7 @@ wildRule(kartu(hitam,wild), WarnaBaru) :-
     retract(top_pile(kartu(_, _))),
     asserta(top_pile(kartu(WarnaBaru, _))).
 
-wildDrawFour(kartu(hitam,drawFour), WarnaBaru) :-
+wildDrawFour(kartu(hitam,draw_four), WarnaBaru) :-
 
     warna(WarnaBaru),
     retract(top_pile(kartu(_, _))),
