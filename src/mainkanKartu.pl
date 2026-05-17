@@ -1,3 +1,4 @@
+:- dynamic memoriTantangan/2.
 
 mainkanKartu(NomorUrut) :-
     currentPlayer(PemainAktif),
@@ -24,6 +25,7 @@ eksekusiKartu(PemainAktif,TanganLama,Indeks,CurrentTop) :-
 eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     getAndRemove(Indeks, TanganLama, KartuPilihan, TanganBaru),
     isKartuValid(KartuPilihan,CurrentTop), !,
+    simpanMemoriTantangan(PemainAktif, CurrentTop, KartuPilihan),
     retract(topCard(CurrentTop)),
     assertz(topCard(KartuPilihan)),
     assertz(player(PemainAktif,TanganBaru)),
@@ -64,3 +66,10 @@ prosesEfekdanTurn(kartu(_,reverse)) :-
     
 
 
+simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, drawFour)) :-
+    retractall(memoriTantangan(_, _)),            
+    asserta(memoriTantangan(Pelaku, WarnaLama)), 
+    !.                                        
+    
+simpanMemoriTantangan(_, _, _) :-
+        retractall(memoriTantangan(_, _)).
