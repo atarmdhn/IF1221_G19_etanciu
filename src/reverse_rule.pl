@@ -1,3 +1,6 @@
+:-include ('importantFunction.pl')
+:-include('startGame.pl')
+
 reverseRule(kartu(_, skip)):-
     getAllPlayers(UrutanLama), % urutanPemain belum ada
     balikUrutan(UrutanLama, UrutanBaru),
@@ -9,4 +12,4 @@ balikUrutan([], []):- !.
 
 balikUrutan([Head|Tail], TailTerbalik):-
     balikUrutan(Tail, ListTerbalik),
-    append(TailTerbalik, [Head], ListTerbalik).
+    myAppend(TailTerbalik, [Head], ListTerbalik).

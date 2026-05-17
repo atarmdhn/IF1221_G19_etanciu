@@ -1,3 +1,5 @@
+:- dynamic status_uni/1.
+
 % Rule Kartu Biru
 kartu(biru, 0). kartu(biru, 1). kartu(biru, 2). kartu(biru, 3). kartu(biru, 4).
 kartu(biru, 5). kartu(biru, 6). kartu(biru, 7). kartu(biru, 8). kartu(biru, 9).
