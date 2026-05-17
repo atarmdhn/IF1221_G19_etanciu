@@ -1,5 +1,6 @@
 :- dynamic(player/1).
-:- use_module(library(random)).
+:- include('importantFunctions.pl').
+:- include('fact.pl').
 
 startGame :-
     retractall(player(_)),
@@ -9,7 +10,14 @@ startGame :-
     randomList(Players,RandomPlayers),
     write('Urutan pemain: '), printList(RandomPlayers), nl,
     write('Setiap pemain mendapatkan 7 kartu acak.'), nl,
-    write('Kartu discard top: '), nl, /* belum buat discard kartu */
+
+    myFindall(kartu(Warna,Jenis), kartu(Warna,Jenis), ListKartu),
+    randomList(ListKartu,DeckAcak),
+    bagiKartu(RandomPlayers,DeckAcak,ListPemainDanKartu,SisaDeckSetelahDibagi),
+    getTopCard(SisaDeckSetelahDibagi,TopCard,FinalDeck),
+    kartu(Warna,Jenis) = TopCard,
+    format('Kartu discard top: ~w - ~w', [Warna,Jenis]), nl, 
+    
     [First|_] = RandomPlayers,
     format('Giliran ~w.', [First]), nl.
 
@@ -51,20 +59,6 @@ nameInputProcess(Count, Total, Name) :-
 getAllPlayers(Players) :-
     findall(P, player(P), Players).
 
-/* Random list Players */ 
-randomList([],[]).
-randomList(ListAsal,[ElemenTerpilih|SisaHasil]) :-
-    length(ListAsal, Panjang),
-    random(0, Panjang, Index),
-    getAndRemove(Index,ListAsal,ElemenTerpilih,ListSisa),
-    randomList(ListSisa,SisaHasil).
-
-getAndRemove(0,[H|T],H,T).
-getAndRemove(Index,[H|T],Elemen,[H|SisaTail]) :-
-    Index > 0,
-    Next is Index - 1,
-    getAndRemove(Next,T,Elemen,SisaTail).
-
 /* Print pemain di dalam list Players */
 printList([H]) :- 
     write(H), !.
@@ -73,3 +67,24 @@ printList([H|T]) :-
     write(H),
     write(' - '),
     printList(T).
+
+/* Validasi top card valid (bukan utiity card)*/
+
+getTopCard([CurrentCard|SisaDeck],TopCard,FinalDeck) :-
+    CurrentCard = kartu(Warna,Jenis),
+    \+ number(Jenis),!,
+    myAppend(SisaDeck,CurrentCard,DeckBaru),
+    getTopCard(DeckBaru,TopCard,FinalDeck).
+
+getTopCard([CurrentCard|SisaDeck],CurrentCard,SisaDeck) :- !.
+
+/* Bagi kartu ke pemain */
+ambil7([A,B,C,D,E,F,G|SisaDeck],[A,B,C,D,E,F,G], SisaDeck).
+
+bagiKartu([], Deck, [], Deck).
+bagiKartu([Nama|SisaNama], DeckAwal, [player(Nama,Kartu)|SisaPlayer], DeckAkhir) :-
+    ambil7(DeckAwal, Kartu, SisaDeck),
+    bagiKartu(SisaNama,SisaDeck,SisaPlayer,DeckAkhir).
+/* Hasil : [player(ata,[kartu(kuning,skip),kartu(biru,5),...)]), 
+            player(kuri,[kartu(merah,4),...]),
+            ...] */
