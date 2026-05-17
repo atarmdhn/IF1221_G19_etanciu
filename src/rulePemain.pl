@@ -31,7 +31,7 @@ findPrevious(Current,[Current|_],Next) :-
 
 ubahArahPermainan :-
     retract(gameDirection(normal)),
-    assertz(gameDirection(reverse)).
+    assertz(gameDirection(reverse)),
     write('Arah giliran pemain berubah menjadi REVERSE.').
 
 ubahArahPermainan :-

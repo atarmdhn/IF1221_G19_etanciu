@@ -1,5 +1,3 @@
-:- include('importantFunctions.pl').
-:- include('rulePemain.pl').
 
 mainkanKartu(NomorUrut) :-
     currentPlayer(PemainAktif),
@@ -13,14 +11,14 @@ mainkanKartu(NomorUrut) :-
 eksekusiKartu(PemainAktif, TanganLama, Indeks, _) :-
     \+ getAndRemove(Indeks,TanganLama,_,_), !,
     assertz(player(PemainAktif,TanganLama)),
-    write("Nomor urut invalid!"), fail.
+    write('Nomor urut invalid!'), fail.
 
 /* Kondisi 2 : Kartu yang dipilih tidak sesuai dengan kartu meja */
 eksekusiKartu(PemainAktif,TanganLama,Indeks,CurrentTop) :-
     getAndRemove(Indeks,TanganLama,KartuPilihan,_),
     \+ isKartuValid(KartuPilihan,CurrentTop), !,
     assertz(player(PemainAktif,TanganLama)),
-    write("Kartu tidak sesuai dengan kartu di meja!"), fail.
+    write('Kartu tidak sesuai dengan kartu di meja!'), fail.
 
 /* Kondisi 3 : Kartu yang dipilih valid */
 eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
@@ -29,8 +27,8 @@ eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     retract(topCard(CurrentTop)),
     assertz(topCard(KartuPilihan)),
     assertz(player(PemainAktif,TanganBaru)),
-    kartu(Warna,Jenis) = KartuPIlihan,
-    format('~w memainkan kartu : ~w - ~w', [PemainAktif,Warna,Jenis]).
+    kartu(Warna,Jenis) = KartuPilihan,
+    format('~w memainkan kartu : ~w - ~w', [PemainAktif,Warna,Jenis]), nl,
     prosesEfekdanTurn(KartuPilihan).
 
 /* Memeriksa apakah kartu valid */
