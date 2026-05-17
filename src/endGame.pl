@@ -86,7 +86,7 @@ endGame:-
     write('Permainan selesai! '),
     sisaKartuPemain(Pemenang, [], _), % Orang yang menang yang gapunya sisa kartu atau poin = 0
     format('~w menghabiskan semua kartunya!~n', [Pemenang]), nl,
-    write('Berikut perhitungan poin sisa kartu.~n'),
+    format('Berikut perhitungan poin sisa kartu.~n'),
 
     myFindall(Pemain, sisaKartuPemain(Pemain, _, _), ListPemain),
     cetakUrutanPemain(ListPemain), nl,
@@ -96,7 +96,7 @@ endGame:-
         ListUrutanAcak),
 
     mySort(ListUrutanAcak, ListUrutanRILCUI),
-    write('Urutan Pemenang:~n'),
+    format('Urutan Pemenang:~n'),
     cetakUrutanAkhir(ListUrutanRILCUI, 1), nl,
     format('Selamat ~w menjadi pemenang!~n', [Pemenang]).
 
