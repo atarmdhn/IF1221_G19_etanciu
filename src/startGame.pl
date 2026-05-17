@@ -6,9 +6,6 @@
 
 :- dynamic(tempPlayer/1). % menyimpan input nama pemain 
 
-:- include('importantFunctions.pl').
-:- include('fact.pl').
-
 startGame :-
     retractall(player(_,_)),
     retractall(playerOrder(_)),
