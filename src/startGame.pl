@@ -13,9 +13,10 @@ startGame :-
 
     myFindall(kartu(Warna,Jenis), kartu(Warna,Jenis), ListKartu),
     randomList(ListKartu,DeckAcak),
-    bagiKartu(RandomPlayers,DeckAcak,ListPemainDanKartu,FinalDeck),
-    getTopCard(DeckKartu,TopCard,FinalDeck),
-    format('Kartu discard top: ~w', [TopCard]), nl, 
+    bagiKartu(RandomPlayers,DeckAcak,ListPemainDanKartu,SisaDeckSetelahDibagi),
+    getTopCard(SisaDeckSetelahDibagi,TopCard,FinalDeck),
+    kartu(Warna,Jenis) = TopCard,
+    format('Kartu discard top: ~w - ~w', [Warna,Jenis]), nl, 
     
     [First|_] = RandomPlayers,
     format('Giliran ~w.', [First]), nl.
@@ -69,13 +70,13 @@ printList([H|T]) :-
 
 /* Validasi top card valid (bukan utiity card)*/
 
-getTopCard([TopCard|SisaDeck],TopCard,FinalDeck) :-
-    TopCard = kartu(_,Jenis),
+getTopCard([CurrentCard|SisaDeck],TopCard,FinalDeck) :-
+    CurrentCard = kartu(Warna,Jenis),
     \+ number(Jenis),!,
-    myAppend(SisaDeck,TopCard,DeckBaru),
+    myAppend(SisaDeck,CurrentCard,DeckBaru),
     getTopCard(DeckBaru,TopCard,FinalDeck).
 
-getTopCard([TopCard|SisaDeck],TopCard,FinalDeck) :- !.
+getTopCard([CurrentCard|SisaDeck],CurrentCard,SisaDeck) :- !.
 
 /* Bagi kartu ke pemain */
 ambil7([A,B,C,D,E,F,G|SisaDeck],[A,B,C,D,E,F,G], SisaDeck).
