@@ -3,4 +3,12 @@
 :- include('fact.pl').
 :- include('rulePemain.pl').
 :- include('mainkanKartu.pl').
+:- include('uni.pl').
+:- include('tangkap.pl').
+:- include('tantang.pl').
+:- include('lihatKartu.pl').
+:- include('cekInfo.pl').
+:- include('lihatCommand.pl').
+:- include('endGame.pl').
+
 
