@@ -32,6 +32,7 @@ eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     prosesEfekdanTurn(KartuPilihan).
 
 /* Memeriksa apakah kartu valid */
+isKartuValid(kartu(Hitam,_),_) :-!.
 isKartuValid(kartu(W,_),kartu(W,_)) :- !.
 isKartuValid(kartu(_,J),kartu(_,J)) :- !.
 
