@@ -1,17 +1,23 @@
-tarik_kartu_aman(_, 0) :- !.
-tarik_kartu_aman(Target, N) :-
+generate_n_cards(0, []) :- !.
+generate_n_cards(N, [Kartu | Rest]) :-
     N > 0,
     myFindall(kartu(W, J), kartu(W, J), SemuaKartu),
-    getOneRandom(SemuaKartu, KartuHukuman),
-    player(Target, ListLama),
-    myAppend(ListLama, KartuHukuman, ListBaru),
-    retract(player(Target, _)),
-    asserta(player(Target, ListBaru)),
+    getOneRandom(SemuaKartu, Kartu),
     N1 is N - 1,
-    tarik_kartu_aman(Target, N1).
+    generate_n_cards(N1, Rest).
 
+gabung_list([], L, L) :- !.
+gabung_list([H|T], L, [H|Rest]) :-
+    gabung_list(T, L, Rest).
 
-% SKENARIO 0: KONDISI TIDAK VALID (PENCEGAH ERROR)
+tarik_kartu_aman(Target, N) :-
+    generate_n_cards(N, ListHukuman),
+    player(Target, ListLama),
+    gabung_list(ListLama, ListHukuman, ListBaru),
+    retract(player(Target, _)),
+    asserta(player(Target, ListBaru)),    
+    !.
+
 tantang :-
     \+ memoriTantangan(_, _),
     !,
@@ -29,8 +35,8 @@ tantang :-
     format('Hukuman: ~w (Pelaku) ditarik 4 kartu.~n', [Pelaku]),
     tarik_kartu_aman(Pelaku, 4),
     retractall(memoriTantangan(_, _)),
-    prosesEfekdanTurn(gagal).
-
+    prosesEfekdanTurn(gagal),
+    !.
 % SKENARIO 2: TANTANGAN GAGAL (PENANTANG SALAH TUDUH)
 tantang :-
     currentPlayer(Penantang),
@@ -40,4 +46,5 @@ tantang :-
     format('Hukuman: ~w (Penantang) ditarik 6 kartu (4 kartu asli + 2 denda fitnah).~n', [Penantang]),
     tarik_kartu_aman(Penantang, 6),
     retractall(memoriTantangan(_, _)),
-    prosesEfekdanTurn(gagal).
+    prosesEfekdanTurn(gagal),
+    !.
