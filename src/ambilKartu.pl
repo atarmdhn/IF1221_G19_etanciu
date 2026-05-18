@@ -10,12 +10,6 @@ ambilKartu :-
     assertz(currentPlayer(NextPlayer1)),
     format('Giliran ~w.', [NextPlayer1]), nl.
 
-cetak(Pemain, draw_two) :- !,
-    getCard(Pemain,Warna1, Jenis1),
-    format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna1, Jenis1]),
-    getCard(Pemain,Warna2, Jenis2),
-    format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna2, Jenis2]).
-
 cetak(Pemain, draw_four) :- !,
     getCard(Pemain,Warna1, Jenis1),
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna1, Jenis1]),
@@ -27,8 +21,7 @@ cetak(Pemain, draw_four) :- !,
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna4, Jenis4]).
 
 cetak(Pemain, JenisMeja) :- 
-    JenisMeja \= draw_four,
-    JenisMeja \= draw_two, !,
+    JenisMeja \= draw_four, !,
     getCard(Pemain,Warna, Jenis),
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna, Jenis]).
 
@@ -39,5 +32,5 @@ getCard(Pemain,Warna,Jenis) :-
     assertz(deck(SisaDeck)),
 
     retract(player(Pemain,TanganLama)),
-    myAppend(TanganLama,[Kartu],TanganBaru),
+    myAppend(TanganLama,Kartu,TanganBaru),
     assertz(player(Pemain,TanganBaru)).
