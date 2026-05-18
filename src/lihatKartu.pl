@@ -1,7 +1,7 @@
 lihatKartu :-
-    giliran(Pemain),
+    currentPlayer(Pemain),
     listKartu(Pemain, ListKartu),
-    write('Berikut kartu yang anda miliki.~n'),
+    write('Berikut kartu yang anda miliki.'), nl,
     cetakList(ListKartu, 1).
 
 cetakList([], _).
