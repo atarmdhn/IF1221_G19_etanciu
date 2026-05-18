@@ -1,11 +1,3 @@
-:- dynamic(player/2). % menyimpan tangan player(Nama,ListKartu)
-:- dynamic(playerOrder/1). % menyimpan urutan giliran
-:- dynamic(currentPlayer/1). % menyimpan pemain yang mendapat giliran
-:- dynamic(gameDirection/1). % menyimpan alur permainan (normal/reverse).
-:- dynamic(topCard/1). % menyimpan info kartu teratas di meja 
-
-:- dynamic(tempPlayer/1). % menyimpan input nama pemain 
-
 startGame :-
     retractall(player(_,_)),
     retractall(playerOrder(_)),

@@ -1,5 +1,3 @@
-:- dynamic memoriTantangan/2.
-
 mainkanKartu(NomorUrut) :-
     currentPlayer(PemainAktif),
     topCard(CurrentTop),

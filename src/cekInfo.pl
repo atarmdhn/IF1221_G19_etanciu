@@ -1,6 +1,3 @@
-:- include('fact.pl').
-:- include('startGame.pl')
-
 cekInfo :-
     giliran(Pemain),
     format('Kartu discard top: ~w-~w~n'[WarnaMeja, Jenis]),

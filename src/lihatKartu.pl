@@ -1,5 +1,3 @@
-:- include('fact.pl').
-
 lihatKartu :-
     giliran(Pemain),
     listKartu(Pemain, ListKartu),
