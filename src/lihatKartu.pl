@@ -1,6 +1,6 @@
 lihatKartu :-
     currentPlayer(Pemain),
-    listKartu(Pemain, ListKartu),
+    player(Pemain, ListKartu),
     write('Berikut kartu yang anda miliki.'), nl,
     cetakList(ListKartu, 1).
 
