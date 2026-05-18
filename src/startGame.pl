@@ -23,6 +23,7 @@ startGame :-
     randomList(ListKartu,DeckAcak),
     bagiKartu(RandomPlayers,DeckAcak,SisaDeckSetelahDibagi),
     getTopCard(SisaDeckSetelahDibagi,TopCard,FinalDeck),
+    assertz(deck(FinalDeck)),
     assertz(topCard(TopCard)),
 
     kartu(Warna,Jenis) = TopCard,
