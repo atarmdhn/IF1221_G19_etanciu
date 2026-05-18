@@ -1,5 +1,6 @@
 :- include('startGame.pl').
 :- include('importantFunctions.pl').
+:- include('fact.pl').
 
 % Fakta untuk perhitungan poin
 nilai_kartu(kartu(_, Jenis), Nilai) :- % Berlaku untuk jenis angka 0 - 9
@@ -12,7 +13,7 @@ nilai_kartu(kartu(_, reverse), 10).
 nilai_kartu(kartu(_, draw_two), 10).
 
 nilai_kartu(kartu(_, wild), 20).
-nilai_kartu(kartu(_, draw_four), 20).
+nilai_kartu(kartu(_, wild_draw_four), 20).
 nilai_kartu(kartu(_, mimic), 20).
 
 :- dynamic(sisaKartuPemain/3). /* Efek dinamis untuk tau siapa yang kalah dengan parameter
@@ -37,7 +38,7 @@ cetakKalah(Pemain, SisaKartu):- % Kasus Rekursif
     cetakSisaKartu(SisaKartu),
     write(' = '), 
     cetakPoin(SisaKartu, PoinPemain),
-    format(' = ~w poin', [PoinPemain]).
+    format(' = ~w poin ~n', [PoinPemain]).
 
 % Helper buat yang kalah
 % Helper cetak sisa kartu pemain kalah
@@ -85,7 +86,7 @@ endGame:-
     write('Permainan selesai! '),
     sisaKartuPemain(Pemenang, [], _), % Orang yang menang yang gapunya sisa kartu atau poin = 0
     format('~w menghabiskan semua kartunya!~n', [Pemenang]), nl,
-    write('Berikut perhitungan poin sisa kartu.~n'),
+    write('Berikut perhitungan poin sisa kartu.'), nl,
 
     myFindall(Pemain, sisaKartuPemain(Pemain, _, _), ListPemain),
     cetakUrutanPemain(ListPemain), nl,
@@ -95,12 +96,7 @@ endGame:-
         ListUrutanAcak),
 
     mySort(ListUrutanAcak, ListUrutanRILCUI),
-    write('Urutan Pemenang:~n'),
+    write('Urutan pemenang:'), nl,
     cetakUrutanAkhir(ListUrutanRILCUI, 1), nl,
     format('Selamat ~w menjadi pemenang!~n', [Pemenang]).
-
-
-
-
-
 

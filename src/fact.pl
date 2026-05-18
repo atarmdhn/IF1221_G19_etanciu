@@ -1,4 +1,4 @@
-:- dynamic status_uni/1.
+:- dynamic(status_uni/1).
 
 % Rule Kartu Biru
 kartu(biru, 0). kartu(biru, 1). kartu(biru, 2). kartu(biru, 3). kartu(biru, 4).
@@ -26,7 +26,7 @@ kartu(merah, skip). kartu(merah, reverse). kartu(merah, draw_two).
 
 % Rule wild card
 kartu(hitam, wild).
-kartu(hitam, draw_four).
+kartu(hitam, wild_draw_four).
 
 number(0).
 number(1). 
