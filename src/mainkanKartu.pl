@@ -29,7 +29,7 @@ eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     assertz(player(PemainAktif,TanganBaru)),
     kartu(Warna,Jenis) = KartuPilihan,
     format('~w memainkan kartu : ~w - ~w', [PemainAktif,Warna,Jenis]), nl,
-    prosesEfekdanTurn(KartuPilihan).
+    cekKondisiTangan(TanganBaru, KartuPilihan, PemainAktif).
 
 /* Memeriksa apakah kartu valid */
 isKartuValid(kartu(W,_),kartu(W,_)) :- !.
@@ -37,6 +37,13 @@ isKartuValid(kartu(_,J),kartu(_,J)) :- !.
 
 /* Proses efek dan turn */
 
+/* Kasus Kartu Abis */
+cekKondisiTangan([], _, PemainAktif):- !,
+    endGame.
+
+cekKondisiTangan(_, KartuPilihan, _):- 
+    prosesEfekdanTurn(KartuPilihan).
+    
 /* Normal turn */
 prosesEfekdanTurn(_) :-
     getNextPlayer(PemainNext),
@@ -71,3 +78,6 @@ simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, drawFour)) :-
     
 simpanMemoriTantangan(_, _, _) :-
         retractall(memoriTantangan(_, _)).
+
+
+    
