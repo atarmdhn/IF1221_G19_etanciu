@@ -1,7 +1,3 @@
-:- include('startGame.pl').
-:- include('importantFunctions.pl').
-:- include('fact.pl').
-
 % Fakta untuk perhitungan poin
 nilai_kartu(kartu(_, Jenis), Nilai) :- % Berlaku untuk jenis angka 0 - 9
     integer(Jenis),
