@@ -31,6 +31,7 @@ eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     format('~w memainkan kartu : ~w - ~w', [PemainAktif,Warna,Jenis]), nl,
     cekKondisiTangan(TanganBaru, KartuPilihan, PemainAktif).
 
+
 /* Memeriksa apakah kartu valid */
 isKartuValid(kartu(W,_),kartu(W,_)) :- !.
 isKartuValid(kartu(_,J),kartu(_,J)) :- !.
@@ -43,19 +44,23 @@ cekKondisiTangan([], _, PemainAktif):- !,
 
 cekKondisiTangan(_, KartuPilihan, _):- 
     prosesEfekdanTurn(KartuPilihan).
-    
+
 /* Normal turn */
-prosesEfekdanTurn(_) :-
-    getNextPlayer(PemainNext),
+prosesEfekdanTurn(kartu(_,Jenis)) :-
+    Jenis \= reverse,
+    Jenis \= skip,
+    Jenis \= draw_two, !,
+    getNextPlayer(PemainNext), 
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
-    format('Giliran ~w', [PemainNext]).
+    format('Giliran ~w', [PemainNext]), nl.
 
 /* Skip */
 prosesEfekdanTurn(kartu(_,skip)) :-
-    getNextPlayer(PemainNext),
+    getNextPlayer(PemainNext), !,
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
+
     getNextPlayer(PemainSetelahnya),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
@@ -63,13 +68,28 @@ prosesEfekdanTurn(kartu(_,skip)) :-
 
 /* Reverse */
 prosesEfekdanTurn(kartu(_,reverse)) :-
-    retract(playerOrder(UrutanPemain)),
     ubahArahPermainan,
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)), assertz(currentPlayer(PemainNext)),
     format('Giliran ~w', [PemainNext]).
-    
 
+/* Draw two */
+prosesEfekdanTurn(kartu(_,draw_two)) :-
+    getNextPlayer(PemainNext), !,
+
+    getCard(PemainNext,Warna1,Jenis1),
+    format('~w mendapatkan kartu : ~w - ~w~n', [PemainNext,Warna1,Jenis1]),
+    getCard(PemainNext,Warna2,Jenis2),
+    format('~w mendapatkan kartu : ~w - ~w~n', [PemainNext,Warna2,Jenis2]),
+    format('~w terkena efek skip!', [PemainNext]),
+
+    retract(currentPlayer(_)),
+    assertz(currentPlayer(PemainNext)),
+
+    getNextPlayer(PemainSetelahnya),
+    retract(currentPlayer(_)),
+    assertz(currentPlayer(PemainSetelahnya)),
+    format('Giliran ~w', [PemainSetelahnya]).
 
 simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, drawFour)) :-
     retractall(memoriTantangan(_, _)),            
@@ -80,4 +100,3 @@ simpanMemoriTantangan(_, _, _) :-
         retractall(memoriTantangan(_, _)).
 
 
-    
