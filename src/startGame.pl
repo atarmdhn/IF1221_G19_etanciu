@@ -88,7 +88,7 @@ getTopCard([CurrentCard|SisaDeck],TopCard,FinalDeck) :-
 getTopCard([CurrentCard|SisaDeck],CurrentCard,SisaDeck) :- !.
 
 /* Bagi kartu ke pemain */
-ambil7([A,B,C,D,E,F,G|SisaDeck],[A,B,C,D,E,F,G], SisaDeck).
+ambil7([A|SisaDeck],[A], SisaDeck).
 
 bagiKartu([], Deck, Deck).
 bagiKartu([Nama|SisaNama], DeckAwal, DeckAkhir) :-

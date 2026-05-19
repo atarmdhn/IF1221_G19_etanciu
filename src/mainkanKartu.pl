@@ -41,9 +41,11 @@ isKartuValid(kartu(hitam,_),_) :-!.
 
 /* Kasus Kartu Abis */
 cekKondisiTangan([], _, PemainAktif):- !,
+    sinkronisasiMemoriPemain,
     endGame.
 
 cekKondisiTangan(_, KartuPilihan, _):- 
+    sinkronisasiMemoriPemain,
     prosesEfekdanTurn(KartuPilihan).
 
 
@@ -126,3 +128,16 @@ simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, wild_draw_four))
     
 simpanMemoriTantangan(_, _, _) :-
         retractall(memoriTantangan(_, _)).
+
+/* Memindahkan data player/2 ke sisaKartuPemain/3 untuk dibaca endGame */
+sinkronisasiMemoriPemain :-
+    retractall(sisaKartuPemain(_,_,_)), % Bersihkan sisa data game sebelumnya
+    playerOrder(Urutan),                % Ambil urutan pemain asli
+    salinKeSisaKartu(Urutan, 1).
+
+salinKeSisaKartu([], _).
+salinKeSisaKartu([Nama | SisaPemain], Index) :-
+    player(Nama, ListKartu),
+    assertz(sisaKartuPemain(Nama, ListKartu, Index)), % Simpan ke memori yang dibaca endGame
+    NextIndex is Index + 1,
+    salinKeSisaKartu(SisaPemain, NextIndex).
