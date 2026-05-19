@@ -46,51 +46,78 @@ cekKondisiTangan([], _, PemainAktif):- !,
 cekKondisiTangan(_, KartuPilihan, _):- 
     prosesEfekdanTurn(KartuPilihan).
 
-/* Normal turn */
-prosesEfekdanTurn(kartu(_,Jenis)) :-
-    Jenis \= reverse,
-    Jenis \= skip,
-    Jenis \= draw_two, !,
-    getNextPlayer(PemainNext), 
+
+/* Wild Draw Four (+4) */
+prosesEfekdanTurn(kartu(_,wild_draw_four)) :- !, % Tambahan Cut
+    write('Kartu +4 dimainkan! Ketik warna baru (merah./kuning./hijau./biru.): '),
+    read(WarnaBaru),
+    retract(topCard(_)),
+    asserta(topCard(kartu(WarnaBaru, wild_draw_four))),
+    format('Warna meja diubah menjadi ~w!~n', [WarnaBaru]),
+        
+    getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
-    format('Giliran ~w', [PemainNext]), nl.
-
+    format('Giliran ~w (Ketik tantang. atau ambilKartu.)~n', [PemainNext]).
+    
+/* wild (Biasa) */
+prosesEfekdanTurn(kartu(_,wild)) :- !, % Tambahan Cut
+    write('Kartu Wild dimainkan! Ketik warna baru (merah./kuning./hijau./biru.): '),
+    read(WarnaBaru),
+    retract(topCard(_)),
+    asserta(topCard(kartu(WarnaBaru, wild))),
+    format('Warna meja diubah menjadi ~w!~n', [WarnaBaru]),
+        
+    getNextPlayer(PemainNext),
+    retract(currentPlayer(_)),
+    assertz(currentPlayer(PemainNext)),
+    format('Giliran ~w~n', [PemainNext]).
+    
 /* Skip */
-prosesEfekdanTurn(kartu(_,skip)) :-
-    getNextPlayer(PemainNext), !,
+prosesEfekdanTurn(kartu(_,skip)) :- !,
+    getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
-
     getNextPlayer(PemainSetelahnya),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
-    format('Giliran ~w', [PemainSetelahnya]).
-
+    format('Giliran ~w~n', [PemainSetelahnya]).
+    
 /* Reverse */
-prosesEfekdanTurn(kartu(_,reverse)) :-
+prosesEfekdanTurn(kartu(_,reverse)) :- !,
     ubahArahPermainan,
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)), assertz(currentPlayer(PemainNext)),
-    format('Giliran ~w', [PemainNext]).
-
-/* Draw two */
-prosesEfekdanTurn(kartu(_,draw_two)) :-
-    getNextPlayer(PemainNext), !,
-
+    format('Giliran ~w~n', [PemainNext]).
+    
+    /* 5. Draw two (+2) */
+    prosesEfekdanTurn(kartu(_,draw_two)) :- !,
+    getNextPlayer(PemainNext),
     getCard(PemainNext,Warna1,Jenis1),
     format('~w mendapatkan kartu : ~w - ~w~n', [PemainNext,Warna1,Jenis1]),
     getCard(PemainNext,Warna2,Jenis2),
     format('~w mendapatkan kartu : ~w - ~w~n', [PemainNext,Warna2,Jenis2]),
-    format('~w terkena efek skip!', [PemainNext]),
-
+    format('~w terkena efek skip!~n', [PemainNext]),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
-
     getNextPlayer(PemainSetelahnya),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
-    format('Giliran ~w', [PemainSetelahnya]).
+    format('Giliran ~w~n', [PemainSetelahnya]).
+    
+    /* 6. handler gagal untuk uni dan tangkap */
+prosesEfekdanTurn(gagal) :- !,
+    getNextPlayer(PemainNext),
+    retract(currentPlayer(_)),
+    assertz(currentPlayer(PemainNext)),
+    format('Giliran ~w~n', [PemainNext]).
+    
+/* Normal turn */
+prosesEfekdanTurn(kartu(_, _)) :- !,
+    getNextPlayer(PemainNext), 
+    retract(currentPlayer(_)),
+    assertz(currentPlayer(PemainNext)),
+    format('Giliran ~w~n', [PemainNext]).
 
 simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, wild_draw_four)) :-
     retractall(memoriTantangan(_, _)),            
@@ -99,5 +126,3 @@ simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, wild_draw_four))
     
 simpanMemoriTantangan(_, _, _) :-
         retractall(memoriTantangan(_, _)).
-
-
