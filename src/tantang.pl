@@ -7,22 +7,15 @@ generate_n_cards(N, [Kartu | Rest]) :-
     generate_n_cards(N1, Rest).
 
 gabung_list([], L, L) :- !.
-gabung_list([H|T], L, [H|Rest]) :-
-    gabung_list(T, L, Rest).
+gabung_list([H|T], L, [H|Rest]) :- gabung_list(T, L, Rest).
 
 tarik_kartu_aman(Target, N) :-
     generate_n_cards(N, ListHukuman),
     player(Target, ListLama),
     gabung_list(ListLama, ListHukuman, ListBaru),
     retract(player(Target, _)),
-    asserta(player(Target, ListBaru)),    
+    asserta(player(Target, ListBaru)),
     !.
-
-tantang :-
-    \+ memoriTantangan(_, _),
-    !,
-    write('Tantangan tidak valid! Tidak ada kartu Wild Draw Four yang baru saja dimainkan.'), nl.
-
 % SKENARIO 1: TANTANGAN BERHASIL (PELAKU KETAHUAN BOHONG)
 tantang :-
     currentPlayer(Penantang),
@@ -30,13 +23,21 @@ tantang :-
     player(Pelaku, ListKartuPelaku),
     member(kartu(WarnaSebelumnya, _), ListKartuPelaku),
     !,
+    
     format('~w menantang ~w!', [Penantang, Pelaku]), nl,
-    write('Tantangan BERHASIL! Pelaku ternyata masih memiliki kartu warna yang cocok di tangannya.'), nl,
-    format('Hukuman: ~w (Pelaku) ditarik 4 kartu.~n', [Pelaku]),
+    write('Tantangan BERHASIL! Pelaku (yang melempar +4) ketahuan berbohong.'), nl,
+    format('Hukuman: ~w ditarik 4 kartu.~n', [Pelaku]),
+    
+
     tarik_kartu_aman(Pelaku, 4),
+    topCard(kartu(WarnaMeja, _)),
+    retract(topCard(_)),
+    asserta(topCard(kartu(WarnaMeja, wild))),
     retractall(memoriTantangan(_, _)),
-    prosesEfekdanTurn(gagal),
-    !.
+
+    format('Giliran tetap di ~w! Anda lolos dari hukuman, silakan mainkanKartu atau ambilKartu.~n', [Penantang]),
+    !. 
+
 % SKENARIO 2: TANTANGAN GAGAL (PENANTANG SALAH TUDUH)
 tantang :-
     currentPlayer(Penantang),
@@ -45,6 +46,9 @@ tantang :-
     write('Tantangan GAGAL! Pelaku jujur, dia memang tidak punya kartu dengan warna tersebut.'), nl,
     format('Hukuman: ~w (Penantang) ditarik 6 kartu (4 kartu asli + 2 denda fitnah).~n', [Penantang]),
     tarik_kartu_aman(Penantang, 6),
+    topCard(kartu(WarnaMeja, _)),
+    retract(topCard(_)),
+    asserta(topCard(kartu(WarnaMeja, wild))),
     retractall(memoriTantangan(_, _)),
     prosesEfekdanTurn(gagal),
     !.
