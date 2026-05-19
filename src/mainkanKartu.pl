@@ -92,7 +92,7 @@ prosesEfekdanTurn(kartu(_,draw_two)) :-
     assertz(currentPlayer(PemainSetelahnya)),
     format('Giliran ~w', [PemainSetelahnya]).
 
-simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, drawFour)) :-
+simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, wild_draw_four)) :-
     retractall(memoriTantangan(_, _)),            
     asserta(memoriTantangan(Pelaku, WarnaLama)), 
     !.                                        

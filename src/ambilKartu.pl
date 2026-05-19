@@ -10,7 +10,7 @@ ambilKartu :-
     assertz(currentPlayer(NextPlayer1)),
     format('Giliran ~w.', [NextPlayer1]), nl.
 
-cetak(Pemain, draw_four) :- !,
+cetak(Pemain, hitam, wild_draw_four) :- !,
     getCard(Pemain,Warna1, Jenis1),
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna1, Jenis1]),
     getCard(Pemain,Warna2, Jenis2),
@@ -21,7 +21,7 @@ cetak(Pemain, draw_four) :- !,
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna4, Jenis4]).
 
 cetak(Pemain, JenisMeja) :- 
-    JenisMeja \= draw_four, !,
+    JenisMeja \= hitam, wild_draw_four, !,
     getCard(Pemain,Warna, Jenis),
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna, Jenis]).
 
