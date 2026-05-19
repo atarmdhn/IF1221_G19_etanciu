@@ -90,8 +90,8 @@ prosesEfekdanTurn(kartu(_,reverse)) :- !,
     retract(currentPlayer(_)), assertz(currentPlayer(PemainNext)),
     format('Giliran ~w~n', [PemainNext]).
     
-    /* 5. Draw two (+2) */
-    prosesEfekdanTurn(kartu(_,draw_two)) :- !,
+/*  Draw two */
+prosesEfekdanTurn(kartu(_,draw_two)) :- !,
     getNextPlayer(PemainNext),
     getCard(PemainNext,Warna1,Jenis1),
     format('~w mendapatkan kartu : ~w - ~w~n', [PemainNext,Warna1,Jenis1]),
