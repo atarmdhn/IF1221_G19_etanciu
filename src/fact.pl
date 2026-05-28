@@ -8,6 +8,7 @@
 :- dynamic(deck/1). % menyimpan list deck kartu
 :- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
 :- dynamic(kartu_tersembunyi/2). % menyimpan kartu tersembunyi
+:- dynamic(lastActionCard/3). % menyimpan kartu aksi terakhir yang dimainkan, oleh siapa, berapa giliran yang lalu
 
 % Rule Kartu Biru
 kartu(biru, 0). kartu(biru, 1). kartu(biru, 2). kartu(biru, 3). kartu(biru, 4).
@@ -36,6 +37,9 @@ kartu(merah, skip). kartu(merah, reverse). kartu(merah, draw_two).
 % Rule wild card
 kartu(hitam, wild).
 kartu(hitam, wild_draw_four).
+
+% Rule kartu mimic
+kartu(hitam, mimic).
 
 number(0).
 number(1). 

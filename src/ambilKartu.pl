@@ -3,6 +3,7 @@
 ambilKartu :-  
     currentPlayer(Pemain),
     topCard(kartu(WarnaMeja,JenisMeja)),
+    incrementGiliran,
     cetak(Pemain, JenisMeja), nl,
     getNextPlayer(NextPlayer1),
 
@@ -31,11 +32,27 @@ cetak(Pemain, JenisMeja) :-
     format('~w mendapatkan kartu : ~w - ~w~n', [Pemain, Warna, Jenis]).
 
 getCard(Pemain,Warna,Jenis) :-
-    retract(deck(KartuDeck)),
-    [Kartu|SisaDeck] = KartuDeck,
+    retract(deck([Kartu|SisaDeck])), !,
     kartu(Warna,Jenis) = Kartu,
     assertz(deck(SisaDeck)),
 
     retract(player(Pemain,TanganLama)),
     myAppend(TanganLama,Kartu,TanganBaru),
     assertz(player(Pemain,TanganBaru)).
+
+getCard(Pemain,Warna,Jenis) :-
+    cekDeck([],HasilDeck),
+    assertz(deck(HasilDeck)),
+    getCard(Pemain,Warna,Jenis).
+
+/* Fitur tambahan : jika kartu deck habis, ambil semua kartu yang telah dibuang,
+kocok, simpan lagi di deck */
+
+cekDeck([],DeckBaruAcak) :-
+    myFindall(kartu(Warna,Jenis), kartu(Warna,Jenis), DeckBaru),
+    randomList(DeckBaru,DeckBaruAcak),
+
+    write('Kartu di deck sudah habis!'), nl,
+    write('Kartu telah diambil dari meja dan di-shuffle kembali.'), nl.
+
+cekDeck(Deck,Deck).
