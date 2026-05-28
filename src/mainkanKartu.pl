@@ -29,8 +29,34 @@ eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     assertz(player(PemainAktif,TanganBaru)),
     kartu(Warna,Jenis) = KartuPilihan,
     format('~w memainkan kartu : ~w - ~w', [PemainAktif,Warna,Jenis]), nl,
+    updateLastActionCard(KartuPilihan, PemainAktif),
     cekKondisiTangan(TanganBaru, KartuPilihan, PemainAktif).
 
+/* Update lastActionCard untuk mimic */
+
+/* Kartu aksi */
+updateLastActionCard(Kartu, Pemain) :-
+    kartu(_,Jenis) = Kartu,
+    \+ number(Jenis),
+    Jenis \= mimic, !,
+    retractall(lastActionCard(_,_,_)),
+    assertz(lastActionCard(Kartu,Pemain,0)).
+
+/* Kartu angka */
+updateLastActionCard(Kartu,Pemain) :- 
+    kartu(_,Jenis) = Kartu,
+    number(Jenis), 
+    incrementGiliran.
+
+/* Kartu mimic */
+updateLastActionCard(_,_).
+
+incrementGiliran :-
+    retract(lastActionCard(KartuAksi,PemainAksi,Waktu)),
+    WaktuBaru is Waktu + 1,
+    assertz(lastActionCard(KartuAksi,PemainAksi,WaktuBaru)).
+
+incrementGiliran.
 
 /* Memeriksa apakah kartu valid */
 isKartuValid(kartu(W,_),kartu(W,_)) :- !.
@@ -69,7 +95,6 @@ prosesEfekdanTurn(kartu(_,wild)) :- !, % Tambahan Cut
     retract(topCard(_)),
     asserta(topCard(kartu(WarnaBaru, wild))),
     format('Warna meja diubah menjadi ~w!~n', [WarnaBaru]),
-        
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
@@ -80,6 +105,8 @@ prosesEfekdanTurn(kartu(_,skip)) :- !,
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
+    format('Pemain ~w terkena skip!', [PemainNext]), nl,
+
     getNextPlayer(PemainSetelahnya),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
@@ -106,8 +133,30 @@ prosesEfekdanTurn(kartu(_,draw_two)) :- !,
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
     format('Giliran ~w~n', [PemainSetelahnya]).
-    
-    /* 6. handler gagal untuk uni dan tangkap */
+
+/* Mimic */
+prosesEfekdanTurn(kartu(_,mimic)) :- 
+    lastActionCard(KartuAksi, Pemain, Waktu), !,
+    write('Menelusuri riwayat permainan.'), nl,
+    kartu(Warna,Jenis) = KartuAksi,
+    Jenis \= mimic,
+    format('Kartu aksi terakhir yang dimainkan: ~w - ~w (oleh ~w, ~w giliran lalu)~n', [Warna,Jenis,Pemain,Waktu]),
+    format('Kartu mimic menyalin efek ~w~n',[Jenis]),
+
+    write('Pilih warna (merah/kuning/hijau/biru) : '),
+    read(WarnaBaru),
+    retract(topCard(_)),
+    assertz(topCard(kartu(WarnaBaru,mimic))),
+    format('Warna aktif sekarang : ~w~n', [WarnaBaru]),
+    prosesEfekdanTurn(KartuAksi).
+
+prosesEfekdanTurn(kartu(_,mimic)) :-
+    write('Menelusuri riwayat permainan.'), nl,
+    write('Tidak ada kartu aksi yang dimainkan sebelumnya.'), nl,
+    write('Kartu mimic menyalin efek wild!'), nl,
+    prosesEfekdanTurn(kartu(hitam,wild)), !.
+
+/* 6. handler gagal untuk uni dan tangkap */
 prosesEfekdanTurn(gagal) :- !,
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
