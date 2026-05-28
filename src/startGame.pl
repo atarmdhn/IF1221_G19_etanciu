@@ -5,6 +5,9 @@ startGame :-
     retractall(gameDirection(_)),
     retractall(topCard(_)),
     retractall(tempPlayer(_)),
+    retractall(status_uni(_)),
+    retractall(kartu_tersembunyi(_,_)),
+    retractall(memoriTantangan).
 
     askPlayerCount(Count),
     askPlayerNames(1, Count),
