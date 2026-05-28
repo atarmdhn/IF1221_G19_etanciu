@@ -95,6 +95,7 @@ prosesEfekdanTurn(kartu(_,wild)) :- !, % Tambahan Cut
     retract(topCard(_)),
     asserta(topCard(kartu(WarnaBaru, wild))),
     format('Warna meja diubah menjadi ~w!~n', [WarnaBaru]),
+        
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),

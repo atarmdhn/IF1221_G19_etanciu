@@ -4,7 +4,6 @@ ambilKartu :-
     currentPlayer(Pemain),
     topCard(kartu(WarnaMeja,JenisMeja)),
     incrementGiliran,
-
     cetak(Pemain, JenisMeja), nl,
     getNextPlayer(NextPlayer1),
 

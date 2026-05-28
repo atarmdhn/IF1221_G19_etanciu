@@ -7,6 +7,7 @@
 :- dynamic(tempPlayer/1). % menyimpan input nama pemain
 :- dynamic(deck/1). % menyimpan list deck kartu
 :- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
+:- dynamic(kartu_tersembunyi/2). % menyimpan kartu tersembunyi
 :- dynamic(lastActionCard/3). % menyimpan kartu aksi terakhir yang dimainkan, oleh siapa, berapa giliran yang lalu
 
 % Rule Kartu Biru
