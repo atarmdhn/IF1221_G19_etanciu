@@ -10,7 +10,9 @@ startGame :-
     retractall(memoriTantangan(_,_)),
     retractall(modeGame(_)),
     retractall(tim(_,_)),
+    retractall(swapTim(_)),
 
+    nl,
     write('Tersedia 2 mode permainan.'), nl,
     write('1. Mode klasik'), nl,
     write('2. Mode turnamen'), nl,

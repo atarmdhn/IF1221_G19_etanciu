@@ -86,6 +86,7 @@ prosesEfekdanTurn(kartu(_,wild_draw_four)) :- !, % Tambahan Cut
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
+    retractall(swapTim(_)),
     format('Giliran ~w (Ketik tantang. atau ambilKartu.)~n', [PemainNext]).
     
 /* wild (Biasa) */
@@ -99,6 +100,7 @@ prosesEfekdanTurn(kartu(_,wild)) :- !, % Tambahan Cut
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
+    retractall(swapTim(_)),
     format('Giliran ~w~n', [PemainNext]).
     
 /* Skip */
@@ -111,6 +113,7 @@ prosesEfekdanTurn(kartu(_,skip)) :- !,
     getNextPlayer(PemainSetelahnya),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
+    retractall(swapTim(_)),
     format('Giliran ~w~n', [PemainSetelahnya]).
     
 /* Reverse */
@@ -118,6 +121,7 @@ prosesEfekdanTurn(kartu(_,reverse)) :- !,
     ubahArahPermainan,
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)), assertz(currentPlayer(PemainNext)),
+    retractall(swapTim(_)),
     format('Giliran ~w~n', [PemainNext]).
     
 /*  Draw two */
@@ -133,6 +137,7 @@ prosesEfekdanTurn(kartu(_,draw_two)) :- !,
     getNextPlayer(PemainSetelahnya),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainSetelahnya)),
+    retractall(swapTim(_)),
     format('Giliran ~w~n', [PemainSetelahnya]).
 
 /* Mimic */
@@ -162,6 +167,7 @@ prosesEfekdanTurn(gagal) :- !,
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
+    retractall(swapTim(_)),
     format('Giliran ~w~n', [PemainNext]).
     
 /* Normal turn */
@@ -169,6 +175,7 @@ prosesEfekdanTurn(kartu(_, _)) :- !,
     getNextPlayer(PemainNext), 
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
+    retractall(swapTim(_)),
     format('Giliran ~w~n', [PemainNext]).
 
 simpanMemoriTantangan(Pelaku, kartu(WarnaLama, _), kartu(hitam, wild_draw_four)) :-
@@ -191,3 +198,75 @@ salinKeSisaKartu([Nama | SisaPemain], Index) :-
     assertz(sisaKartuPemain(Nama, ListKartu, Index)), % Simpan ke memori yang dibaca endGame
     NextIndex is Index + 1,
     salinKeSisaKartu(SisaPemain, NextIndex).
+
+/* Swap Kartu antara player yang 1 tim */
+cariTemanTim(Pemain, Teman):- tim(_, [Pemain, Teman]), !.
+cariTemanTim(Pemain, Teman):- tim(_, [Teman, Pemain]), !.
+
+swapKartu(NoKartuPemain, NoKartuTeman):-
+    gameMode(Mode), Mode = turnamen, !,
+    currentPlayer(Pemain),
+    swapping(Pemain, NoKartuPemain, NoKartuTeman).
+
+swapKartu(_,_):-
+    \+ gameMode(turnamen), !,
+    write('Perintah ini hanya bisa digunakan pada mode turnamen!'), nl.
+
+swapping(Pemain, _, _):-
+    swapTim(Pemain), !,
+    write('Gagal menukar kartu! Anda sudah melakukan pertukaran!'), nl.
+
+swapping(Pemain, _, _):-
+    player(Pemain, KartuPemain),
+    getLength(KartuPemain, BanyakKartuPemain),
+    BanyakKartuPemain =< 1, !,
+    write('Gagal menukar kartu! Kartu anda tersisa 1'), nl, fail.
+
+swapping(Pemain, _, _):-
+    cariTemanTim(Pemain, Teman),
+    player(Teman, KartuTeman),
+    getLength(KartuTeman, BanyakKartuTeman),
+    BanyakKartuTeman =< 1, !,
+    write('Gagal menukar kartu! Kartu teman tersisa 1'), nl, fail.
+
+swapping(Pemain, NoKartuPemain, _):-
+    player(Pemain, KartuPemain),
+    IdxPemain is NoKartuPemain - 1,
+    \+ getAndRemove(IdxPemain, KartuPemain, _, _), !,
+    write('Gagal menukar kartu! Nomor kartu anda tidak valid'), nl, fail.
+
+swapping(Pemain, _, NoKartuTeman):-
+    cariTemanTim(Pemain, Teman),
+    player(Teman, KartuTeman),
+    IdxTeman is NoKartuTeman - 1,
+    \+ getAndRemove(IdxTeman, KartuTeman, _, _), !,
+    write('Gagal menukar kartu! Nomor kartu teman tidak valid'), nl, fail.
+
+swapping(Pemain, NoKartuPemain, NoKartuTeman):-
+    cariTemanTim(Pemain, Teman),
+    player(Pemain, ListKartuPemain),
+    player(Teman, ListKartuTeman),
+
+    IdxPemain is NoKartuPemain - 1,
+    IdxTeman is NoKartuTeman - 1,
+
+    getAndRemove(IdxPemain, ListKartuPemain, KartuPemain, SisaKartuPemain),
+    getAndRemove(IdxTeman, ListKartuTeman, KartuTeman, SisaKartuTeman),
+
+    ListKartuPemainBaru = [KartuTeman | SisaKartuPemain],
+    ListKartuTemanBaru = [KartuPemain | SisaKartuTeman],
+
+    retract(player(Pemain, _)),
+    assertz(player(Pemain, ListKartuPemainBaru)),
+    retract(player(Teman, _)),
+    assertz(player(Teman, ListKartuTemanBaru)),
+
+    assertz(swapTim(Pemain)),
+
+    KartuPemain = kartu(WarnaPemain, JenisPemain),
+    KartuTeman = kartu(WarnaTeman, JenisTeman), nl,
+    format('~w menukar kartu ~w-~w dengan kartu ~w-~w milik ~w.~n', [Pemain, WarnaPemain, JenisPemain, WarnaTeman, JenisTeman, Teman]),
+    nl, write('Pertukaran Kartu Berhasil!'),nl.
+    
+
+

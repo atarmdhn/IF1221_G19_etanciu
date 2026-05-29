@@ -11,6 +11,7 @@
 :- dynamic(lastActionCard/3). % menyimpan kartu aksi terakhir yang dimainkan, oleh siapa, berapa giliran yang lalu
 :- dynamic(modeGame/1). % nyimpan mode game bisa klasik yang semua lawanan ato turnamen 2v2
 :- dynamic(tim/2). % nyimpen anggota tim buat mode turnamen
+:- dynamic(swapTim/1). % ngecek udh swap blm
 
 % Rule Kartu Biru
 kartu(biru, 0). kartu(biru, 1). kartu(biru, 2). kartu(biru, 3). kartu(biru, 4).
