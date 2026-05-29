@@ -2,7 +2,7 @@ cekInfo :-
     currentPlayer(Pemain),
     topCard(kartu(WarnaMeja, JenisMeja)),
     playerOrder(Urutan),
-    gameDirection(ArahMain)
+    gameDirection(ArahMain),
     format('Kartu discard top: ~w-~w~n', [WarnaMeja, JenisMeja]),
     write('Urutan pemain: '), 
     cetakUrutan(Urutan, ArahMain), write('.'), nl, nl,
