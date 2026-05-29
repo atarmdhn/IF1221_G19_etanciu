@@ -8,7 +8,7 @@ startGame :-
     retractall(status_uni(_)),
     retractall(kartu_tersembunyi(_,_)),
     retractall(memoriTantangan(_,_)),
-    retractall(modeGame(_)),
+    retractall(gameMode(_)),
     retractall(tim(_,_)),
     retractall(swapTim(_)),
 

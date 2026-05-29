@@ -9,7 +9,7 @@
 :- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
 :- dynamic(kartu_tersembunyi/2). % menyimpan kartu tersembunyi
 :- dynamic(lastActionCard/3). % menyimpan kartu aksi terakhir yang dimainkan, oleh siapa, berapa giliran yang lalu
-:- dynamic(modeGame/1). % nyimpan mode game bisa klasik yang semua lawanan ato turnamen 2v2
+:- dynamic(gameMode/1). % nyimpan mode game bisa klasik yang semua lawanan ato turnamen 2v2
 :- dynamic(tim/2). % nyimpen anggota tim buat mode turnamen
 :- dynamic(swapTim/1). % ngecek udh swap blm
 
