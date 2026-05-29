@@ -19,7 +19,7 @@ cetakInfoPemain([], _).
 cetakInfoPemain([Pemain | SisaPemain], IndexPemain):-
     format('Nama pemain ~w: ~w~n', [IndexPemain, Pemain]),
     player(Pemain, ListKartu),
-    length(ListKartu, BanyakKartu),
+    getLength(ListKartu, BanyakKartu),
     format('Jumlah kartu: ~w~n~n', [BanyakKartu]),
     NextIndex is IndexPemain + 1,
     cetakInfoPemain(SisaPemain, NextIndex).
