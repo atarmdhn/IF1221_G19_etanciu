@@ -23,4 +23,5 @@ cetakPendukung :-
     write('Aksi Pendukung Yang Tersedia :'), nl,
     write('1. lihatCommand'), nl,
     write('2. lihatKartu'), nl,
-    write('3. cekInfo').
+    write('3. cekInfo'),
+    write('4. sembunyikanKartu(NomorUrut)').

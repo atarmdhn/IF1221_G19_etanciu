@@ -1,28 +1,39 @@
+tarik_kartu_aman(_, 0) :- !.
+tarik_kartu_aman(Target, N) :-
+    N > 0,
+    myFindall(kartu(W, J), kartu(W, J), SemuaKartu),
+    getOneRandom(SemuaKartu, KartuHukuman),
+    player(Target, ListLama),
+    myAppend(ListLama, KartuHukuman, ListBaru),
+    retract(player(Target, _)),
+    asserta(player(Target, ListBaru)),
+    N1 is N - 1,
+    tarik_kartu_aman(Target, N1).
 
-% SKENARIO 1: TANGKAPAN BERHASIL
+% VALIDASI PEMAIN TIDAK DITEMUKAN 
+tangkap(Target) :-
+    \+ player(Target, _),
+    !,
+    format('Pemain dengan nama ~w tidak ditemukan!~n', [Target]).
+    
+% TANGKAPAN BERHASIL
 tangkap(Target) :-
     currentPlayer(Penuduh),
     player(Target, ListKartuTarget),
-    getLength(ListKartuTarget, 1),
+    getLength(ListKartuTarget, JumlahTerlihat),
+    myFindall(Kartu, kartu_tersembunyi(Target, Kartu), ListTersembunyi),
+    getLength(ListTersembunyi, JumlahTersembunyi),
+    TotalKartu is JumlahTerlihat + JumlahTersembunyi,
+    TotalKartu =:= 1,
     \+ status_uni(Target),
     !,
-    getCard(Kartu1),
-    getCard(Kartu2),
-    myAppend(ListKartuTarget, [Kartu1, Kartu2], ListKartuBaruTarget),
-    retract(player(Target, _)),
-    asserta(player(Target, ListKartuBaruTarget)),
     format('~w tertangkap basah memiliki 1 kartu tapi tidak menyerukan UNI!~n', [Target]),
-    format('Hukuman: ~w ditarik 2 kartu penalti.~n', [Target]).
-
-% SKENARIO 2: TANGKAPAN GAGAL
-tangkap(Target) :-
-    currentPlayer(Penuduh),
-    format('Tangkapan gagal! ~w tidak melanggar aturan (kartu > 1 atau sudah bilang UNI).~n', [Target]),
-    format('Hukuman: ~w (sebagai penuduh) ditarik 1 kartu penalti.~n', [Penuduh]),
+    format('Hukuman: ~w ditarik 2 kartu penalti.~n', [Target]),
+    tarik_kartu_aman(Target, 2).
     
-    getCard(KartuHukuman),
-    player(Penuduh, ListKartuPenuduh),
-    myAppend(ListKartuPenuduh, [KartuHukuman], ListKartuBaruPenuduh),
-    
-    retract(player(Penuduh, _)),
-    asserta(player(Penuduh, ListKartuBaruPenuduh)).
+% TANGKAPAN GAGAL 
+    tangkap(Target) :-
+        currentPlayer(Penuduh),
+        format('Yahh fitnah luu, ~w soalnya tidak melanggar aturan (Total kartu > 1 atau sudah bilang UNI).~n', [Target]),
+        format('Lu dihukum, ambil 1 kartu penalti.~n', [Penuduh]),
+        tarik_kartu_aman(Penuduh, 1).

@@ -30,14 +30,14 @@ findPrevious(Current,[Current|_],Next) :-
     ambilElemenTerakhir(Order,Next), !.
 
 ubahArahPermainan :-
-    retract(gameDirection(normal)),
+    retract(gameDirection(normal)), !,
     assertz(gameDirection(reverse)),
-    write('Arah giliran pemain berubah menjadi REVERSE.').
+    write('Arah giliran pemain berubah menjadi REVERSE.'), nl.
 
 ubahArahPermainan :-
-    retract(gameDirection(reverse)),
+    retract(gameDirection(reverse)),!,
     assertz(gameDirection(normal)),
-    write('Arah giliran pemain berubah menjadi NORMAL.').
+    write('Arah giliran pemain berubah menjadi NORMAL.'), nl.
 
 ambilElemenTerakhir([X], X) :- !.
 ambilElemenTerakhir([_|T],X) :-

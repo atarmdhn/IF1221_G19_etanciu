@@ -1,47 +1,40 @@
-
-hapusElemenKe(1, [_|T], T) :- !.
-hapusElemenKe(N, [H|T], [H|SisaT]) :-
-    N > 1,
+tarik_kartu_aman(_, 0) :- !.
+tarik_kartu_aman(Target, N) :-
+    N > 0,
+    myFindall(kartu(W, J), kartu(W, J), SemuaKartu),
+    getOneRandom(SemuaKartu, KartuHukuman),
+    player(Target, ListLama),
+    myAppend(ListLama, KartuHukuman, ListBaru),
+    retract(player(Target, _)),
+    asserta(player(Target, ListBaru)),
     N1 is N - 1,
-    hapusElemenKe(N1, T, SisaT).
+    tarik_kartu_aman(Target, N1).
 
-uni(NomorUrut):-
-    currentPlayer(Pemain), % mengecek giliran
+% SKENARIO 1: SERUAN UNI BERHASIL (KONDISI VALID)
+uni(NomorUrut) :-
+    currentPlayer(Pemain),
     player(Pemain, ListKartu),
     getLength(ListKartu, 2),
-    getElement(NomorUrut, ListKartu, KartuPilihan), %mengambil kartu yang berada di nomor urut
-
+    Indeks is NomorUrut - 1,
+    getAndRemove(Indeks, ListKartu, KartuPilihan, ListKartuBaru),
     topCard(KartuMeja),
-    isKartuValid(KartuPilihan, KartuMeja), % menyesuaikan kartu di meja dan di tangan 
-
-    %menghapus kartu lama
-    hapusElemenKe(NomorUrut, ListKartu, ListKartuBaru),
+    isKartuValid(KartuPilihan, KartuMeja),
+    !,
+    retract(topCard(_)),
+    asserta(topCard(KartuPilihan)),
     retract(player(Pemain, _)),
     asserta(player(Pemain, ListKartuBaru)),
-
-        %update status uni
-    retractall(status_uni(Pemain)), 
+    retractall(status_uni(Pemain)),
     asserta(status_uni(Pemain)),
-    
-    format('~w memainkan kartu: ~w.~n', [Pemain, KartuPilihan]),
+    kartu(Warna, Jenis) = KartuPilihan,
+    format('~w memainkan kartu : ~w - ~w~n', [Pemain, Warna, Jenis]),
     format('~w menyerukan UNI!~n', [Pemain]),
-    
-        % Pindah ke giliran berikutnya
-    prosesEfekdanTurn(KartuPilihan). 
+    prosesEfekdanTurn(KartuPilihan).
 
+% SKENARIO 2: SERUAN UNI GAGAL (KONDISI INVALID / PENALTI)
 uni(_) :-
     currentPlayer(Pemain),
     write('Perintah tidak valid (kartu tidak cocok / jumlah kartu tidak tepat).'), nl,
     write('Penalti: Anda mendapatkan 1 kartu acak.'), nl,
-    
-    ambilKartu(KartuHukuman), 
-    
-    % Masukkan kartu hukuman ke tangan pemain
-    player(Pemain, ListKartu),
-    myAppend(ListKartu, [KartuHukuman], ListKartuBaru),
-    
-    retract(player(Pemain, _)),
-    asserta(player(Pemain, ListKartuBaru)),
-    
-
-    prosesEfekdanTurn(gagal). %lanjut next orang
+    tarik_kartu_aman(Pemain, 1),
+    prosesEfekdanTurn(gagal).

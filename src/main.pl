@@ -10,3 +10,6 @@
 :- include('cekInfo.pl').
 :- include('lihatCommand.pl').
 :- include('endGame.pl').
+:- include('ambilKartu.pl').
+:- include('sembunyikanKartu.pl').
+:- include('tampilkanKartu.pl').
