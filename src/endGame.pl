@@ -1,5 +1,7 @@
 % Fakta untuk perhitungan poin
+nilai_kartu(kartu(_, 0), 1).
 nilai_kartu(kartu(_, Jenis), Nilai) :- % Berlaku untuk jenis angka 0 - 9
+    Jenis >= 1,
     integer(Jenis),
     Nilai = Jenis.
 
