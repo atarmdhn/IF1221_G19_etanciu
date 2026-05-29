@@ -7,24 +7,55 @@ startGame :-
     retractall(tempPlayer(_)),
     retractall(status_uni(_)),
     retractall(kartu_tersembunyi(_,_)),
-    retractall(memoriTantangan).
+    retractall(memoriTantangan(_,_)),
+    retractall(modeGame(_)),
+    retractall(tim(_,_)),
 
+    write('Tersedia 2 mode permainan.'), nl,
+    write('1. Mode klasik'), nl,
+    write('2. Mode turnamen'), nl,
+    write('Pilih mode permainan: '),
+    read(Mode), nl,
+
+    setupMode(Mode).
+
+
+setupMode(1):-
+    assertz(gameMode(klasik)),
     askPlayerCount(Count),
     askPlayerNames(1, Count),
     getAllPlayers(Players),
-
     randomList(Players,RandomPlayers),
-    write('Urutan pemain: '), printList(RandomPlayers), nl,
-    assertz(playerOrder(RandomPlayers)),
+    setupLanjutan(RandomPlayers).
 
-    [First|_] = RandomPlayers,
+setupMode(2):-
+    assertz(gameMode(turnamen)),
+    write('Permainan dimulai dalam mode turnamen'), nl, nl,
+    askPlayerNames(1, 4),
+    getAllPlayers(Players),
+    write('Membentuk tim secara acak...'), nl, nl,
+    randomList(Players, PlayersAcak),
+    bentukTim(PlayersAcak, UrutanTur),
+    setupLanjutan(UrutanTur).
+
+setupMode(_):-
+    write('Pilihan tidak valid. Silakan masukkan angka 1 atau 2.'), nl,
+    write('Pilih mode permainan: '),
+    read(NewMode), nl,
+    setupMode(NewMode).
+
+setupLanjutan(UrutanMain):-
+    write('Urutan pemain: '), printList(UrutanMain), nl,
+    assertz(playerOrder(UrutanMain)),
+
+    [First|_] = UrutanMain,
     assertz(currentPlayer(First)),
     assertz(gameDirection(normal)),
     write('Setiap pemain mendapatkan 7 kartu acak.'), nl,
 
     myFindall(kartu(Warna,Jenis), kartu(Warna,Jenis), ListKartu),
     randomList(ListKartu,DeckAcak),
-    bagiKartu(RandomPlayers,DeckAcak,SisaDeckSetelahDibagi),
+    bagiKartu(UrutanMain,DeckAcak,SisaDeckSetelahDibagi),
     getTopCard(SisaDeckSetelahDibagi,TopCard,FinalDeck),
     assertz(deck(FinalDeck)),
     assertz(topCard(TopCard)),
@@ -101,3 +132,10 @@ bagiKartu([Nama|SisaNama], DeckAwal, DeckAkhir) :-
 /* Hasil : player(ata,[kartu(kuning,skip),kartu(biru,5),...)]), 
         player(kuri,[kartu(merah,4),...]),
         ... */
+
+/* Bentuk Tim buat mode Turnamen*/
+bentukTim([P1, P2, P3, P4], [P1, P3, P2, P4]):-
+    assertz(tim(1, [P1, P2])),
+    assertz(tim(2, [P3, P4])),
+    format('Tim 1 : ~w dan ~w~n',[P1, P2]),
+    format('Tim 2 : ~w dan ~w~n~n',[P3, P4]).
