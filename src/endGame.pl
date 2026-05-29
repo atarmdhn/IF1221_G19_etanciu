@@ -81,6 +81,56 @@ cetakUrutanAkhir([stats(Poin, _, _, Nama)|T], Rank) :-
 % --------------- HELPER BERES AKHIRNYA ---------------------
 
 endGame:-
+    gameMode(turnamen), !,
+    endGameTur.
+
+endGame:-
+    endGameKlasik.
+
+endGameTur:-
+    write('Permainan selesai! '),
+    sisaKartuPemain(Pemenang, [], _), % Orang yang menang yang gapunya sisa kartu atau poin = 0
+    format('~w menghabiskan semua kartunya!~n', [Pemenang]), nl,
+    write('Berikut perhitungan poin sisa kartu.'), nl,
+
+    myFindall(Pemain, sisaKartuPemain(Pemain, _, _), ListPemain),
+    cetakUrutanPemain(ListPemain), nl,
+
+    tim(1, [P1, P2]),
+    sisaKartuPemain(P1, KartuP1, _),
+    sisaKartuPemain(P2, KartuP2, _),
+    hitung_poin_saja(KartuP1, PoinP1),
+    hitung_poin_saja(KartuP2, PoinP2),
+    TotalPoinTim1 is PoinP1 + PoinP2,
+
+    tim(2, [P3, P4]),
+    sisaKartuPemain(P3, KartuP3, _),
+    sisaKartuPemain(P4, KartuP4, _),
+    hitung_poin_saja(KartuP3, PoinP3),
+    hitung_poin_saja(KartuP4, PoinP4),
+    TotalPoinTim2 is PoinP3 + PoinP4,
+
+    write('Berikut perhitungan poin untuk masing-masing tim.'), nl,
+    format('Tim 1 (~w, ~w) : ~w + ~w = ~w',[P1, P2, PoinP1, PoinP2, TotalPoinTim1]), nl,
+    format('Tim 2 (~w, ~w) : ~w + ~w = ~w',[P3, P4, PoinP3, PoinP4, TotalPoinTim2]), nl,
+
+    cetakPemenangTur(TotalPoinTim1, TotalPoinTim2).
+
+cetakPemenangTur(TotalPoinTim1, TotalPoinTim2):-
+    TotalPoinTim1 < TotalPoinTim2, !,
+    write('Selamat, Tim 1 menjadi pemenang!'), nl, !.
+
+cetakPemenangTur(TotalPoinTim1, TotalPoinTim2):-
+    TotalPoinTim1 > TotalPoinTim2, !,
+    write('Selamat, Tim 2 menjadi pemenang!'), nl, !.
+
+
+cetakPemenangTur(TotalPoinTim1, TotalPoinTim2):-
+    TotalPoinTim1 =:= TotalPoinTim2, !,
+    write('Permainan Berakhir dengan Poin Seimbang!'), nl, !.
+
+
+endGameKlasik:-
     write('Permainan selesai! '),
     sisaKartuPemain(Pemenang, [], _), % Orang yang menang yang gapunya sisa kartu atau poin = 0
     format('~w menghabiskan semua kartunya!~n', [Pemenang]), nl,
