@@ -1,7 +1,12 @@
-:- dynamic pemain/1.
-:- dynamic discard_top/1.
-:- dynamic arah/1.
-:- dynamic listKartuSave/2.
+:- dynamic(status_uni/1). %list pemain dengan status uni
+:- dynamic(player/2). % menyimpan tangan player(Nama,ListKartu)
+:- dynamic(playerOrder/1). % menyimpan urutan giliran
+:- dynamic(currentPlayer/1). % menyimpan pemain yang mendapat giliran
+:- dynamic(gameDirection/1). % menyimpan alur permainan (normal/reverse).
+:- dynamic(topCard/1). % menyimpan info kartu teratas di meja 
+:- dynamic(tempPlayer/1). % menyimpan input nama pemain
+:- dynamic(deck/1). % menyimpan list deck kartu
+:- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
 
 
 
