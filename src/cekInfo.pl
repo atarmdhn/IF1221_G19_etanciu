@@ -6,7 +6,17 @@ cekInfo :-
     format('Kartu discard top: ~w-~w~n', [WarnaMeja, JenisMeja]),
     write('Urutan pemain: '), 
     cetakUrutan(Urutan, ArahMain), write('.'), nl, nl,
+    cetakInfoTim,
     cetakInfoPemain(Urutan, 1).
+
+cetakInfoTim:-
+    gameMode(turnamen), !,
+    tim(1, [P1, P2]),
+    tim(2, [P3, P4]),
+    format('Tim 1 : ~w, ~w~n', [P1, P2]),
+    format('Tim 2 : ~w, ~w~n~n', [P3, P4]).
+
+cetakInfoTim:- !.
 
 cetakUrutan(Urutan, normal):-
     printList(Urutan).
