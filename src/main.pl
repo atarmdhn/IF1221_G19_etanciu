@@ -13,3 +13,4 @@
 :- include('ambilKartu.pl').
 :- include('sembunyikanKartu.pl').
 :- include('tampilkanKartu.pl').
+:- include('godsHand.pl').
