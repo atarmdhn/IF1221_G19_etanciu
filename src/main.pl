@@ -13,4 +13,6 @@
 :- include('ambilKartu.pl').
 :- include('sembunyikanKartu.pl').
 :- include('tampilkanKartu.pl').
+:- include('saveGame.pl').
+:- include('loadGame.pl').
 :- include('godsHand.pl').
