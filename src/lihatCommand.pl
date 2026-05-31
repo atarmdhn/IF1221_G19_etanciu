@@ -33,4 +33,5 @@ cetakPendukung :-
     write('1. lihatCommand'), nl,
     write('2. lihatKartu'), nl,
     write('3. cekInfo'), nl,
-    write('4. sembunyikanKartu(NomorUrut)').
+    write('4. godsHand'), nl,
+    write('5. sembunyikanKartu(NomorUrut)').
