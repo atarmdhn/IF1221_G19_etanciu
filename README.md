@@ -5,7 +5,7 @@ Dahulu, UNI adalah tentang kehangatan yang melingkar. Sebuah ritual tatap muka, 
 
 Namun kini, lingkaran hangat itu telah dipaksa mengkerut, bermigrasi ke dalam sunyinya Command Line Interface. Lingkaran yang dulu menghidupkan suasana, sekarang mati dan membeku, menjelma menjadi deretan string dan tulisan kaku di atas layar hitam yang pekat.
 
-Di balik layar itu, bertumpu sebuah Tugas Besar yang menuntut ketabahan. Menghidupkan kembali kegembiraan UNI bukan lagi soal membagikan kartu secara fisik, melainkan menyusun untaian logika predikat. Di bawah kuasa bahasa Prolog, setiap aturan permainan harus didefinisikan sebagai kebenaran mutlak. Mengajarkan komputer tentang arti giliran yang berputar, warna yang serasi, dan fakta bahwa sebuah permainan kartu bisa direduksi menjadi sekumpulan rules dan facts.
+Di balik layar itu, bertumpu sebuah Tugas Besar yang menuntut ketabahan. Menghidupkan kembali kegembiraan, UNI bukan lagi soal membagikan kartu secara fisik, melainkan menyusun untaian logika predikat. Di bawah kuasa bahasa Prolog, setiap aturan permainan harus didefinisikan sebagai kebenaran mutlak. Mengajarkan komputer tentang arti giliran yang berputar, warna yang serasi, dan fakta bahwa sebuah permainan kartu bisa direduksi menjadi sekumpulan rules dan facts.
 
 Kita tidak lagi melempar kartu, tetapi kita sedang melakukan query pada sebuah takdir di dalam terminal.
 
