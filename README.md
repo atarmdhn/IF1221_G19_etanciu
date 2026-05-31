@@ -55,8 +55,6 @@ IF1221_G19_ETANCIU/
 
 ## Cara Menjalankan Program
 
-Untuk menjalankan permainan ini, pastikan Anda telah menginstal **GNU Prolog (gprolog)**. Berikut adalah langkah-langkah untuk menjalankan program:
-
 1. **Jalankan GNU Prolog** dan langsung muat program utama:
    ```bash
    gprolog --consult-file main.pl
@@ -72,7 +70,7 @@ Untuk menjalankan permainan ini, pastikan Anda telah menginstal **GNU Prolog (gp
    ```
 
 3. **Memuat Permainan yang Disimpan (jika ada)**:
-   Jika Anda ingin melanjutkan permainan yang disimpan sebelumnya, jalankan:
+   Jika ingin melanjutkan permainan yang disimpan sebelumnya, jalankan:
    ```prolog
    | ?- loadGame.
    ```
@@ -80,8 +78,6 @@ Untuk menjalankan permainan ini, pastikan Anda telah menginstal **GNU Prolog (gp
 ---
 
 ## Fitur Utama yang Tersedia
-
-Game kartu berbasis Prolog ini dilengkapi dengan berbagai fitur interaktif dan mekanik menarik:
 
 ### 1. Mode Permainan
 * **Mode Klasik**: Mode individual untuk 2 hingga 4 pemain yang saling berkompetisi menjadi yang tercepat menghabiskan kartu.
@@ -99,4 +95,4 @@ Game kartu berbasis Prolog ini dilengkapi dengan berbagai fitur interaktif dan m
 * **`cekInfo`**: Menampilkan status permainan terkini (jumlah kartu lawan, arah giliran, warna aktif, kartu teratas di discard pile, dll).
 * **`sembunyikanKartu(NomorUrut)` & `tampilkanKartu`**: Fitur privasi/taktis untuk menyembunyikan atau menampilkan kartu tertentu dari tangan pemain.
 * **`uni` & `tangkap`**: Pemain yang memiliki kartu sisa 1 wajib mengetikkan `uni.`. Jika lupa, pemain lain dapat melakukan `tangkap.` untuk memberi hukuman penambahan kartu.
-* **`saveGame` & `loadGame`**: Fitur *save/load* yang memungkinkan Anda menyimpan progres permainan saat ini ke file eksternal dan melanjutkannya kapan saja.
+* **`saveGame` & `loadGame`**: Fitur *save/load* yang memungkinkan menyimpan progres permainan saat ini ke file eksternal dan melanjutkannya kapan saja.
