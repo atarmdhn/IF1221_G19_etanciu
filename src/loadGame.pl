@@ -29,7 +29,7 @@ loadGame :-
 
     close(Stream),
 
-    write('Status permainan berhasil dimuat.'),
+    write('Status permainan berhasil dimuat.'), nl,
     currentPlayer(Current),
     format('Melanjutkan giliran ~w. ~n', [Current]).
 
