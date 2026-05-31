@@ -29,7 +29,9 @@ loadGame :-
 
     close(Stream),
 
-    write('Status permainan berhasil dimuat.').
+    write('Status permainan berhasil dimuat.'),
+    currentPlayer(Current),
+    format('Melanjutkan giliran ~w. ~n', [Current]).
 
 loadGame :- 
     write('File tidak ditemukan.'), nl.
