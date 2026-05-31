@@ -7,8 +7,9 @@
 :- dynamic(tempPlayer/1). % menyimpan input nama pemain
 :- dynamic(deck/1). % menyimpan list deck kartu
 :- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
-
-
+:- dynamic(gameMode/1). % nyimpan mode game bisa klasik yang semua lawanan ato turnamen 2v2
+:- dynamic(tim/2). % nyimpen anggota tim buat mode turnamen
+:- dynamic(swapTim/1). % ngecek udh swap blm
 
 
 loadGame :-
@@ -18,6 +19,8 @@ loadGame :-
     name('.txt', NamaExtASCII),
     insert_ASCII(NamaFileASCII, NamaExtASCII, NamaFileSaveASCII),
     name(NamaFileSave, NamaFileSaveASCII),
+
+    emptyGame,
 
     open(NamaFileSave, read, Stream),
     
@@ -37,6 +40,10 @@ emptyGame :-
     retractall(topCard(_)), 
     retractall(gameDirection(_)), 
     retractall(status_uni(_)), 
+    retractall(memoriTantangan(_, _)),
+    retractall(gameMode(_)),
+    retractall(tim(_, _)),
+    retractall(swapTim(_)).
 
 
 bacaFile(Stream) :-
@@ -47,8 +54,8 @@ bacaFile(Stream) :-
     true
     ;
     bacaTerm(Term),
-    bacaFile(Stream).
-    )
+    bacaFile(Stream)
+    ).
 
     
 unformatKartu([], []).
@@ -81,6 +88,15 @@ bacaTerm(status_UNI:StatusUNI) :-
 bacaTerm(kartu(Nama):FormatListKartu) :-
     unformatKartu(FormatListKartu, ListKartu),
     assertz(player(Nama, ListKartu)).
+
+bacaTerm(mode:Mode) :-
+    assertz(gameMode(Mode)).
+
+bacaTerm(tim1:Tim1) :-
+    assertz(tim(1, Tim1)).
+
+bacaTerm(tim2:Tim2) :-
+    assertz(tim(2, Tim2)).
 
 bacaTerm(_) :-
     true.
