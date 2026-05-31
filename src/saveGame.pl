@@ -20,6 +20,8 @@ insert_ASCII([ASCII1 | Sisa], ASCII2, [ASCII1 | HasilNama]) :-
 
 
 saveGame :-
+    \+ tungguWildFour,
+
     write('Masukkan nama file penyimpanan: '),
     read(NamaFile),
 
@@ -129,3 +131,6 @@ formatKartu([], []).
 formatKartu([kartu(Warna,Jenis) | Sisa], [Warna-Jenis | Hasil]) :-
     formatKartu(Sisa, Hasil).
 formatKartu(kartu(Warna, Jenis), Warna-Jenis).
+
+tungguWildFour :-
+    memoriTantangan(_, _).
