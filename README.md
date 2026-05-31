@@ -12,6 +12,7 @@ Kita tidak lagi melempar kartu, tetapi kita sedang melakukan query pada sebuah t
 
 ## Etanciu
 
+Etanciu berasal dari akar kata Slavia "Stane", yang berarti "berdiri", "menetap", atau "menjadi teguh". Nama ini mempunyai makna filosofis, yaitu mseseorang atau kelompok yang memiliki pendirian kuat, tidak mudah goyah oleh tantangan (seperti bug di Prolog yang rumit), dan memiliki ketahanan yang tinggi.
 Oleh karena itu, Perkenalkan, kami Etanciu siap menjawab masalah-masalah itu
 
 - Naufal Hasbialhaq 13525120
