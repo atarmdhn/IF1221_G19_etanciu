@@ -8,6 +8,7 @@ startGame :-
     retractall(status_uni(_)),
     retractall(kartu_tersembunyi(_,_)),
     retractall(memoriTantangan(_,_)),
+    retractall(warnaAktif(_)),
     retractall(gameMode(_)),
     retractall(tim(_,_)),
     retractall(swapTim(_)),
@@ -61,6 +62,8 @@ setupLanjutan(UrutanMain):-
     getTopCard(SisaDeckSetelahDibagi,TopCard,FinalDeck),
     assertz(deck(FinalDeck)),
     assertz(topCard(TopCard)),
+    TopCard = kartu(Warna,_),
+    assertz(warnaAktif(Warna)),
 
     kartu(Warna,Jenis) = TopCard,
     format('Kartu discard top: ~w - ~w', [Warna,Jenis]), nl, 

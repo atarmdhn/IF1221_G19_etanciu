@@ -7,6 +7,7 @@
 :- dynamic(tempPlayer/1). % menyimpan input nama pemain
 :- dynamic(deck/1). % menyimpan list deck kartu
 :- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
+:- dynamic(warnaAktif/1). % menyimpan warna aktif kartu
 :- dynamic(kartu_tersembunyi/2). % menyimpan kartu tersembunyi
 :- dynamic(lastActionCard/3). % menyimpan kartu aksi terakhir yang dimainkan, oleh siapa, berapa giliran yang lalu
 :- dynamic(gameMode/1). % nyimpan mode game bisa klasik yang semua lawanan ato turnamen 2v2
