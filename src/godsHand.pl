@@ -1,6 +1,6 @@
 godsHand :-
     \+ satuKartuSemua,
-    peluangTerpanggil(1), !,
+    peluangTerpanggil, !,
 
     pemainDiambil(Pemilik, Kartu),
     pemainDikasih(Pemilik, Penerima, Kartu),
@@ -9,7 +9,7 @@ godsHand :-
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
     
-    format('Tuhan telah berkehendak.~n'),
+    write('Tuhan telah berkehendak.'), nl,
     format('Kartu ~w milik ~w berpindah ke tangan ~w!~n',
         [Kartu, Pemilik, Penerima]),
 
@@ -19,7 +19,7 @@ godsHand :-
     getNextPlayer(PemainNext),
     retract(currentPlayer(_)),
     assertz(currentPlayer(PemainNext)),
-    format('Tuhan tidak berkehendak.~n'),
+    write('Tuhan tidak berkehendak.'), nl,
     format('Giliran ~w~n', [PemainNext]).
 
 satuKartuSemua :-
@@ -31,8 +31,9 @@ cekSatuKartuSemua([Pemain | Sisa]) :-
     length(ListKartu, 1),
     cekSatuKartuSemua(Sisa).
 
-peluangTerpanggil(X) :-
-    random(1, 11, X).
+peluangTerpanggil :-
+    random(1, 11, X),
+    X =:= 1.
 
 hapusKartu(Kartu, [Kartu|Sisa], Sisa).
 
