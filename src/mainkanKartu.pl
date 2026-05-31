@@ -26,6 +26,9 @@ eksekusiKartu(PemainAktif, TanganLama, Indeks, CurrentTop) :-
     simpanMemoriTantangan(PemainAktif, CurrentTop, KartuPilihan),
     retract(topCard(CurrentTop)),
     assertz(topCard(KartuPilihan)),
+    retractall(warnaAktif(_)),
+    KartuPilihan = kartu(WarnaBaru, _),
+    assertz(warnaAktif(WarnaBaru)),
     assertz(player(PemainAktif,TanganBaru)),
     kartu(Warna,Jenis) = KartuPilihan,
     format('~w memainkan kartu : ~w - ~w', [PemainAktif,Warna,Jenis]), nl,
@@ -81,6 +84,8 @@ prosesEfekdanTurn(kartu(_,wild_draw_four)) :- !, % Tambahan Cut
     read(WarnaBaru),
     retract(topCard(_)),
     asserta(topCard(kartu(WarnaBaru, wild_draw_four))),
+    retractall(warnaAktif(_)),
+    assertz(warnaAktif(WarnaBaru)),
     format('Warna meja diubah menjadi ~w!~n', [WarnaBaru]),
         
     getNextPlayer(PemainNext),
@@ -95,6 +100,8 @@ prosesEfekdanTurn(kartu(_,wild)) :- !, % Tambahan Cut
     read(WarnaBaru),
     retract(topCard(_)),
     asserta(topCard(kartu(WarnaBaru, wild))),
+    retractall(warnaAktif(_)),
+    assertz(warnaAktif(WarnaBaru)),
     format('Warna meja diubah menjadi ~w!~n', [WarnaBaru]),
         
     getNextPlayer(PemainNext),
@@ -153,6 +160,8 @@ prosesEfekdanTurn(kartu(_,mimic)) :-
     read(WarnaBaru),
     retract(topCard(_)),
     assertz(topCard(kartu(WarnaBaru,mimic))),
+    retractall(warnaAktif(_)),
+    assertz(warnaAktif(WarnaBaru)),
     format('Warna aktif sekarang : ~w~n', [WarnaBaru]),
     prosesEfekdanTurn(KartuAksi).
 
@@ -268,5 +277,3 @@ swapping(Pemain, NoKartuPemain, NoKartuTeman):-
     format('~w menukar kartu ~w-~w dengan kartu ~w-~w milik ~w.~n', [Pemain, WarnaPemain, JenisPemain, WarnaTeman, JenisTeman, Teman]),
     nl, write('Pertukaran Kartu Berhasil!'),nl.
     
-
-
