@@ -1,9 +1,15 @@
 % Fakta untuk perhitungan poin
 nilai_kartu(kartu(_, 0), 1).
-nilai_kartu(kartu(_, Jenis), Nilai) :- % Berlaku untuk jenis angka 0 - 9
-    Jenis >= 1,
-    integer(Jenis),
-    Nilai = Jenis.
+nilai_kartu(kartu(_, 0), 1).
+nilai_kartu(kartu(_, 1), 1).
+nilai_kartu(kartu(_, 2), 2).
+nilai_kartu(kartu(_, 3), 3).
+nilai_kartu(kartu(_, 4), 4).
+nilai_kartu(kartu(_, 5), 5).
+nilai_kartu(kartu(_, 6), 6).
+nilai_kartu(kartu(_, 7), 7).
+nilai_kartu(kartu(_, 8), 8).
+nilai_kartu(kartu(_, 9), 9).
 
 % Kalo ga integer/angka masuk ke fakta aksi 
 nilai_kartu(kartu(_, skip), 10).
