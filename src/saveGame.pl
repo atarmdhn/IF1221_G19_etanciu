@@ -20,6 +20,8 @@ insert_ASCII([ASCII1 | Sisa], ASCII2, [ASCII1 | HasilNama]) :-
 
 
 saveGame :-
+    \+ tungguWildFour,
+
     write('Masukkan nama file penyimpanan: '),
     read(NamaFile),
 
@@ -35,12 +37,10 @@ saveGame :-
 
     format('Status permainan berhasil disimpan ke ~w.~n', [NamaFileSave]).
 
-
-
 cetakSave(Stream) :-
     \+ gameMode(turnamen), !,
 
-    cetakUrutanPemain(Stream),
+    cetakUrutanPemainSave(Stream),
 
     cetakCurrentPemain(Stream),
 
@@ -61,7 +61,7 @@ cetakSave(Stream) :-
 
     cetakTim(Stream),
 
-    cetakUrutanPemain(Stream),
+    cetakUrutanPemainSave(Stream),
 
     cetakCurrentPemain(Stream),
 
@@ -76,50 +76,61 @@ cetakSave(Stream) :-
     cetakPemainKartu(Stream).
 
 
-cetakUrutanPemain(Stream) :-
+cetakUrutanPemainSave(Stream) :-
     playerOrder(ListPemain),
-    write_term(Stream, urutan_pemain:ListPemain, [fullstop(true)]), nl(Stream).
+    write_term(Stream, urutan_pemain:ListPemain, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakCurrentPemain(Stream) :-
     currentPlayer(Pemain),
-    write_term(Stream, giliran:Pemain, [fullstop(true)]), nl(Stream).
+    write_term(Stream, giliran:Pemain, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakDiscardTop(Stream) :-
     topCard(DiscardTop),
     formatKartu(DiscardTop, FormatDiscardTop),
-    write_term(Stream, discard_top:FormatDiscardTop, [fullstop(true)]), nl(Stream).
+    write_term(Stream, discard_top:FormatDiscardTop, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakWarnaAktif(Stream) :-
-    topCard(kartu(Warna, _)),
-    write_term(Stream, warna_aktif:Warna, [fullstop(true)]), nl(Stream).
-
+    warnaAktif(Warna),
+    write_term(Stream, warna_aktif:Warna, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakArahMain(Stream) :-
     gameDirection(ArahGame),
-    write_term(Stream, arah_permainan:ArahGame, [fullstop(true)]), nl(Stream).
-
+    write_term(Stream, arah_permainan:ArahGame, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakStatusUni(Stream) :-
     status_uni(StatusUNI),
-    write_term(Stream, status_UNI:StatusUNI, [fullstop(true)]), nl(Stream).
+    write_term(Stream, status_UNI:StatusUNI, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakPemainKartu(Stream) :-
     forall(player(Nama, ListKartu), 
         (formatKartu(ListKartu, FormatListKartu),
-        write_term(Stream, kartu(Nama):FormatListKartu, [fullstop(true)]), nl(Stream))).
+        write_term(Stream, kartu(Nama):FormatListKartu, []), 
+        write(Stream, '.'), nl(Stream))).
 
 cetakMode(Stream) :-
     gameMode(Mode),
-    write_term(Stream, mode:Mode, [fullstop(true)]), nl(Stream).
+    write_term(Stream, mode:Mode, []), 
+    write(Stream, '.'), nl(Stream).
 
 cetakTim(Stream) :-
     tim(1, Tim1),
-    write_term(Stream, tim1:Tim1, [fullstop(true)]), nl(Stream),
+    write_term(Stream, tim1:Tim1, []), 
+    write(Stream, '.'), nl(Stream),
 
     tim(2, Tim2),
-    write_term(Stream, tim2:Tim2, [fullstop(true)]), nl(Stream).
+    write_term(Stream, tim2:Tim2, []), 
+    write(Stream, '.'), nl(Stream).
 
 formatKartu([], []).
 formatKartu([kartu(Warna,Jenis) | Sisa], [Warna-Jenis | Hasil]) :-
     formatKartu(Sisa, Hasil).
 formatKartu(kartu(Warna, Jenis), Warna-Jenis).
+
+tungguWildFour :-
+    memoriTantangan(_, _).

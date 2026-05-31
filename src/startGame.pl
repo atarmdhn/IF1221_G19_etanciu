@@ -12,6 +12,7 @@ startGame :-
     retractall(gameMode(_)),
     retractall(tim(_,_)),
     retractall(swapTim(_)),
+    assertz(status_uni([])),
 
     nl,
     write('Tersedia 2 mode permainan.'), nl,
