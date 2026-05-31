@@ -1,0 +1,13 @@
+mode:turnamen.
+tim1:[hasbi,kuri].
+tim2:[juan,ata].
+urutan_pemain:[hasbi,juan,kuri,ata].
+giliran:hasbi.
+discard_top:hijau-2.
+warna_aktif:hijau.
+arah_permainan:normal.
+status_UNI:[].
+kartu(hasbi):[biru-9,kuning-7,merah-draw_two,hijau-6,kuning-6,hijau-0,hijau-9].
+kartu(juan):[hitam-wild,kuning-9,biru-2,kuning-draw_two,hijau-8,merah-3,merah-8].
+kartu(kuri):[biru-6,biru-5,hijau-reverse,merah-6,hijau-4,hijau-skip,hitam-mimic].
+kartu(ata):[biru-0,merah-skip,biru-reverse,merah-reverse,kuning-reverse,kuning-1,merah-0].
