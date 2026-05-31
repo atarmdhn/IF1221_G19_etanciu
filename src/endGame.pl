@@ -87,6 +87,10 @@ cetakUrutanAkhir([stats(Poin, _, _, Nama)|T], Rank) :-
 % --------------- HELPER BERES AKHIRNYA ---------------------
 
 endGame:-
+    \+ player(_, []),
+    write('Permainan belum selesai! Pemain belum menghabiskan kartunya!').
+
+endGame:-
     gameMode(turnamen), !,
     endGameTur.
 
