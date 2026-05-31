@@ -7,6 +7,7 @@
 :- dynamic(tempPlayer/1). % menyimpan input nama pemain
 :- dynamic(deck/1). % menyimpan list deck kartu
 :- dynamic(memoriTantangan/2). % menyimpan kartu pemain sebelumnya kartu tantangan
+:- dynamic(warnaAktif/1). % menyimpan warna aktif kartu
 :- dynamic(gameMode/1). % nyimpan mode game bisa klasik yang semua lawanan ato turnamen 2v2
 :- dynamic(tim/2). % nyimpen anggota tim buat mode turnamen
 :- dynamic(swapTim/1). % ngecek udh swap blm
