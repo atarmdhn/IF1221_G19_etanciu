@@ -1,5 +1,5 @@
 godsHand :-
-    \+ satuKartuSemua(),
+    \+ satuKartuSemua,
     peluangTerpanggil(1), !,
 
     pemainDiambil(Pemilik, Kartu),
