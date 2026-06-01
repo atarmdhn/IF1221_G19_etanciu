@@ -22,13 +22,18 @@ godsHand :-
     write('Tuhan tidak berkehendak.'), nl,
     format('Giliran ~w~n', [PemainNext]).
 
+myLength([], 0).
+myLength([_ | T], N) :-
+    myLength(T, N1),
+    N is N1 + 1.
+
 satuKartuSemua :-
     playerOrder(ListPemain),
     cekSatuKartuSemua(ListPemain).
 cekSatuKartuSemua([]).
 cekSatuKartuSemua([Pemain | Sisa]) :-
     player(Pemain, ListKartu),
-    length(ListKartu, 1),
+    myLength(ListKartu, 1),
     cekSatuKartuSemua(Sisa).
 
 peluangTerpanggil :-
@@ -44,13 +49,13 @@ hapusKartu(Kartu, [Head|Sisa], [Head|SisaBaru]) :-
 pemainDiambil(Pemilik, Kartu) :-
     playerOrder(ListPemain),
 
-    length(ListPemain, N),
+    myLength(ListPemain, N),
     random(0, N, IdxPemain), 
     nth0(IdxPemain, ListPemain, Pemilik),
 
     player(Pemilik, ListKartu),
 
-    length(ListKartu, M),
+    myLength(ListKartu, M),
     random(0, M, IdxKartu),
     nth0(IdxKartu, ListKartu, Kartu),
 
@@ -63,7 +68,7 @@ pemainDiambil(Pemilik, Kartu) :-
 pemainDikasih(Pemilik, Penerima, Kartu) :-
     findall(Pemain, (player(Pemain,_), Pemain \= Pemilik), Kandidat),
 
-    length(Kandidat, N),
+    myLength(Kandidat, N),
     random(0, N, IdxKandidat), 
     nth0(IdxKandidat, Kandidat, Penerima),
 
